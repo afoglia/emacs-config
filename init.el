@@ -1,0 +1,709 @@
+;;; Set up font
+;;;
+;;; In emacs 23, Ubuntu 12.04, emacs no longer respects the settings
+;;; in .Xresources.
+(set-default-font "Terminus-9")
+
+;;; Need to set it for each frame...  Ugh.
+;;; <http://superuser.com/questions/210555/emacs-font-settings-not-working-in-new-frame>
+(add-to-list 'default-frame-alist
+             '(font . "Terminus-9"))
+
+;;;
+;;; Set up path
+;;;
+
+;; Add go mode here first, so my local stuff overrides it
+(setq load-path (cons "/usr/lib/go/misc/emacs" load-path))
+
+; Backport Emacs23 user-emacs-directory variable to older versions
+(unless (boundp 'user-emacs-directory)
+  (defvar user-emacs-directory "~/.emacs.d/"
+    "Directory beneath which additional per-user Emacs-specificfiles are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'."))
+
+
+(defconst ajf-config-dir (concat user-emacs-directory
+                                 (convert-standard-filename "site-lisp/")))
+(if (file-accessible-directory-p ajf-config-dir)
+    (let ((default-directory ajf-config-dir))
+      (setq load-path
+            (append
+             (let ((load-path (copy-sequence load-path))) ;; Shadow
+               (append
+                (copy-sequence (normal-top-level-add-to-load-path '(".")))
+                (normal-top-level-add-subdirs-to-load-path)))
+             load-path))))
+
+;; (setq load-path (append
+;; 		 (list ;ajf-config-dir
+;; ;; 		       (concat ajf-config-dir "/color-theme-6.6.0")
+;; 		       (concat ajf-config-dir "/cedet/common")
+;; ;; 		       (concat ajf-config-dir "/ecb")
+;; ;; ;;                                              "~/.elisp/cedet/eieio"
+;; ;; ;;                                              "~/.elisp/cedet/semantic"
+;; 		       )
+;;                  load-path)
+;;       )
+
+;; ;;; load cedet
+;; ; First we need to load the correct version of cedet libraries overloading
+;; ; debian's default
+;; ;; (load-library "inversion")
+;; ;(unload-feature 'ecb)
+;; (unload-feature 'ecb-autoloads)
+;; (unload-feature 'cedet)
+;; (unload-feature 'inversion)
+;; ;(unload-feature 'eieio)
+;; (load-library "eieio")   ; can't be reloaded!!!  AAAGGHHH!!!
+;; (load-file "~/.elisp/cedet/common/cedet.el")
+;; (load-library "semantic")
+;; (load-library "semantic-fw")
+;; (load-library "senator")
+;; (load-library "semantic-decorate-mode")
+;; (load-library "semantic-ia")
+;; ;(semantic-load-enable-minimum-features)
+
+;; ;;
+;; ;; Color themes
+;; ;;
+(require 'color-theme)
+(eval-after-load "color-theme"
+  '(progn
+     (color-theme-initialize)
+     )
+  )
+;; (require 'color-theme-autoloads "color-theme-autoloads")
+(when (require 'color-theme-hober2 "color-theme-hober2" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-hober2 "Hober2"
+				    "Edward O'Connor <ted@oconnor.cx>")
+	       )
+  )
+(when (require 'color-theme-inkpot "color-theme-inkpot" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-inkpot "Inkpot" "From EmacsWiki")
+	       )
+  )
+(when (require 'color-theme-tango "color-theme-tango" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-tango "Tango" "danranx@gmail.com")
+	       )
+  )
+(when (require 'color-theme-blackboard "color-theme-blackboard" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-blackboard "Blackboard" "jdhuntington@gmail.com")
+	       )
+  )
+; Something in zenburn changes the foreground color of the buffer name
+; in the mode-line when loaded, even if not the current color-theme
+;; (require 'zenburn "zenburn")
+;; (add-to-list 'color-themes
+;; 	     '(zenburn "Zenburn" "Daniel Brockman <daniel@brockman.se>")
+;; 	     )
+(when (require 'color-theme-desert "color-theme-desert" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-desert
+		 "Desert"
+		 "Sergei Lebedev <superbobry@gmail.com>")
+	       )
+  )
+(when (require 'color-theme-twilight "color-theme-twilight" 'noerror)
+  (add-to-list 'color-themes
+               '(color-theme-twilight
+                 "Twilight"
+                 "Marcus Crafter <crafterm@redartisan.com>")
+               )
+  )
+(when (require 'color-theme-monokai "monokai-theme" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-monokai
+		 "Monokai"
+		 "Operator <rectifier04@gmail.com>")
+	       )
+  )
+(when (require 'color-theme-molokai "color-theme-molokai" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-molokai
+		 "Molokai"
+		 "Adam Lloyd <adam@alloy-d.net>")
+	       )
+  )
+(when (require 'color-theme-anothermonokai "anothermonokai" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-anothermonokai
+		 "AnotherMonokai"
+		 "https://github.com/stafu/AnotherMonokai")
+	       )
+  )
+(when (require 'color-theme-billc "color-theme-billc" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-billc
+		 "BillC"
+		 "Bill Clementson <billclem@gmail.com>")
+	       )
+  )
+(when (require 'color-theme-tangotango "color-theme-tangotango" 'noerror)
+  (add-to-list 'color-themes
+	       '(color-theme-tangotango
+		 "TangoTango"
+		 "Julian Barnier <julien@nozav.org")
+	       )
+  )
+;; My current prefered color theme
+;(color-theme-desert)
+(color-theme-tango)
+
+;;; Quiet startup
+
+;; Shut off startup message
+(setq inhibit-startup-message t)
+
+;; Leave the scratch buffer empty
+(setq initial-scratch-message nil)
+
+;;;
+;;; Define frame title
+;;;
+;(setq frame-title-format '(buffer-file-name "%f" ("%b")))
+;; Put buffer name, status, and filename in frame (window) title
+;; (setq frame-title-format '("%b %*%* "
+;;                            (buffer-file-name
+;;                             ("[" buffer-file-name "]")
+;;                             )
+;;                            )
+;;       )
+;; ; Try 2: Add emacs process number (doesn't work)
+;; (setq frame-title-format '(buffer-file-name
+;;                            (format "%%b %%*%%* (%f) [%d]" (emacs-pid))
+;;                            ((format "%%b %%*%%* [%d]" (emacs-pid)))))
+;; ; Try 3: Try just the process id
+;; (setq frame-title-format (format "%%b %%*%%* [%d]" (emacs-pid)))
+; Random try
+;(setq frame-title-format "%*%b ")
+;; (setq icon-title-format frame-title-format)
+
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'post-forward)
+;; from <http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html>
+;(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+
+;; Always show buffer name, even if there's only one frame
+(setq frame-title-format "%b")
+
+
+;;; Functions to easily set frame/window width
+;;;
+;;; from <http://dse.livejournal.com/67732.html>
+(defun fix-frame-width (width)
+  "Set the frame's width to 80 (or prefix arg WIDTH) columns wide."
+  (interactive "P")
+  (if window-system
+      (set-frame-width (selected-frame) (or width 80))
+    (error "Cannot resize frame width of text terminal")))
+(defun fix-window-width (width)
+  "Set the window's width to 80 (or prefix arg WIDTH) columns wide."
+  (interactive "P")
+  (enlarge-window (- (or width 80) (window-width)) 'horizontal))
+(defun fix-width (width)
+  "Set the window's or frame's with to 80 (or prefix arg WIDTH)."
+  (interactive "P")
+  (condition-case nil
+      (fix-window-width width)
+    (error
+     (condition-case nil
+         (fix-frame-width width)
+       (error
+        (error "Cannot resize window or frame horizontally"))))))
+
+
+;; ;; Text zooming
+;; ;; taken from <http://emacs-fu.blogspot.com/2008/12/zooming-inout.html>
+;; (defun text-zoom (n)
+;;   "with positive n, increase the font size, otherwise decrease it"
+;;   (set-face-attribute 'default (selected-frame) :height
+;; 		      (+ (face-attribute 'default :height)
+;; 			 (* (if (> n 0) 1 -1) 10))))
+;; ; Should I change the interactive code to prompt for a size?
+;; (defun text-zoom-in (n)
+;;   "increase font size"
+;;   (interactive "P")
+;;   (text-zoom (or n 1)))
+;; (defun text-zoom-out (n)
+;;   "decrease font size"
+;;   (interactive "P")
+;;   (text-zoom (- 0 (or n 1))))
+
+(require 'zoom-frm)
+(global-set-key (if (boundp 'mouse-wheel-down-event)
+                    (vector (list 'control mouse-wheel-down-event))
+                  [C-mouse-wheel])   ; Emacs 20, 21
+                'zoom-frm-in)
+(when (boundp 'mouse-wheel-up-event)
+  (global-set-key (vector (list 'control mouse-wheel-up-event)) 'zoom-frm-out))
+;; (global-set-key [S-mouse-1]    'zoom-frm-in)
+;; (global-set-key [C-S-mouse-1]  'zoom-frm-out)
+;; ;; Get rid of `mouse-set-font':
+;; (global-set-key [S-down-mouse-1] nil)
+
+;;; Set up emacs-server
+(server-start)
+(add-hook 'server-switch-hook
+          (lambda nil
+            (let ((server-buf (current-buffer)))
+              (bury-buffer)
+              (switch-to-buffer-other-frame server-buf))))
+
+
+;;; Use C-w to delete previous word, unless a region is selected
+(defun backward-kill-word-or-kill-region (&optional arg)
+  (interactive "p")
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (backward-kill-word arg)))
+
+(global-set-key (kbd "C-w") 'backward-kill-word-or-kill-region)
+
+;;;;; SKIPPING Pymacs
+
+;; ido Mode
+; Check help for ido-find-file function for tips on how to use
+(ido-mode)
+(setq ido-enable-flex-matching t)
+(setq ido-default-file-method 'selected-window)
+(setq ido-default-buffer-method 'selected-window)
+
+;; icomplete Mode
+(icomplete-mode 99)
+
+
+;;;;; SKIPPING longlines
+
+; Show column numbers
+(line-number-mode t)
+(column-number-mode t)
+
+; linum -- Shows line numbers for each buffer line
+; activate with M-x linum-mode
+; doesn't play nice with my fix-window-width
+(require 'linum)
+
+; Don't use tab characters
+(setq-default indent-tabs-mode nil)
+
+; Clean up unused buffers at 4 AM
+(require 'midnight)
+(midnight-delay-set 'midnight-delay "4:00am")
+
+;; Colors
+(global-font-lock-mode t)
+
+(transient-mark-mode t)
+
+;; Better searching with ack
+(autoload 'ack-and-a-half-same "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half-find-file-same "ack-and-a-half" nil t)
+(autoload 'ack-and-a-half-find-file "ack-and-a-half" nil t)
+(defalias 'ack 'ack-and-a-half)
+(defalias 'ack-same 'ack-and-a-half-same)
+(defalias 'ack-find-file 'ack-and-a-half-find-file)
+(defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
+(setq ack-and-a-half-arguments '("--nopager"))
+
+;; ;; Strip trailing whitespace when saving certain filetypes
+;; ;; Using whitespace mode from
+;; ;; <http://www.splode.com/~friedman/software/emacs-lisp/src/whitespace.el>
+;; ; use require, so I can append python mode always-nuke list
+;; ;(autoload 'nuke-trailing-whitespace "whitespace" nil t)
+;; (require 'whitespace)
+;; ;; (add-to-list 'nuke-trailing-whitespace-always-major-modes
+;; ;;              'python-mode)
+;; (setq nuke-trailing-whitespace-always-major-modes
+;;       (delete 'c++-mode nuke-trailing-whitespace-always-major-modes))
+;; (add-hook 'mail-send-hook 'nuke-trailing-whitespace)
+;; (add-hook 'write-file-hooks 'nuke-trailing-whitespace)
+;; ;; Should make this a toggle function instead (what about third option)...
+;; (defun off-nuke-trailing-whitespace ()
+;;   (interactive)
+;;   (setq nuke-trailing-whitespace-p nil))
+
+;; Function to highlight lines longer that run over 80 columns
+(defun show-overlong-lines ()
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("^[^\n]\\{80\\}\\(.*\\)$" 1 font-lock-warning-face t))))
+
+;; Highlight matching parentheses
+(show-paren-mode t)
+;; From <http://www.emacswiki.org/emacs/ShowParenMode>
+(defadvice show-paren-function (after show-matching-paren-offscreen activate)
+  "If the matching paren is offscreen, show the matching line in the echo area.  Has no effect if the character before point is not of the syntax class ')'."
+  (interactive)
+  (let ((matching-text nil))
+    ;; Only call `blink-matching-open' if the character before point
+    ;; is a close parentheses type character.  Otherwise, there's not
+    ;; really any point, and `blink-matching-open' would just echo
+    ;; "Mismatched parentheses", which gets really annoying.
+    (if (char-equal (char-syntax (char-before (point))) ?\))
+        (setq matching-text (blink-matching-open)))
+    (if (not (null matching-text))
+        (message matching-text))))
+
+;;; Delete softtabs
+(defun backward-delete-whitespace-to-column ()
+  "delete back to the previous column of whitespace, or just one
+   char if that's not possible. This emulates vim's softtabs
+   feature."
+  (interactive)
+  (if indent-tabs-mode
+      (call-interactively 'backward-delete-char-untabify)
+    ;; let's get to work
+    (let ((movement (% (current-column) tab-width))
+          (p (point)))
+      ;; brain freeze, should be easier to calculate goal
+      (when (= movement 0) (setq movement tab-width))
+      (if (save-excursion
+            (backward-char movement)
+            (string-match "^\\s-+$" (buffer-substring-no-properties (point) p)))
+          (delete-region (- p movement) p)
+        (call-interactively 'backward-delete-char-untabify)))))
+
+(global-set-key (kbd "<DEL>") 'backward-delete-whitespace-to-column)
+
+;;; Browse kill ring
+(when (require 'browse-kill-ring nil 'noerror)
+  (browse-kill-ring-default-keybindings))
+
+
+;; Glasses mode settings
+(setq glasses-separate-parentheses-p nil)
+;(setq glasses-separator "")
+;(setq glasses-face 'bold)
+(setq glasses-original-separator "") ; keep originally underscored
+                                     ; stuff underscored
+(setq glasses-separator "_")
+(setq glasses-face 'italic)
+
+
+;; Put a2ps in the File menu
+(when (load "a2ps-print" 'noerror)
+    (setq a2ps-switches `("-C"))
+    ; Ubuntu/Debian puts this in the menu already...  Need to check
+    ; the load-history variable to see if it's already been loaded, or
+    ; can check the menu.
+    (easy-menu-add-item nil
+			'("file") ["a2ps Buffer" a2ps-buffer "--"]
+			"separator-window")
+)
+;; (load "a2ps-print")
+;; (setq a2ps-switches `("-C"))
+;; (easy-menu-add-item nil
+;;                     '("file") ["a2ps Buffer" a2ps-buffer "--"]
+;;                     "separator-window")
+
+
+
+;; ;; ;; dsvn is supposedly faster than psvn for large trees, but it has
+;; ;; ;; less features
+;; ;; (autoload 'svn-status "dsvn" nil t)
+;; ;; (require 'dsvn)
+;; (require 'psvn)
+
+;; ;; Set colors for diffs
+;; ; Need to set some other faces as well eventually...
+;; (custom-set-faces
+;;  '(diff-added ((t (:foreground "MediumSeaGreen"))) 'now)
+;;  '(diff-removed ((t (:foreground "firebrick"))) 'now)
+;;  '(diff-function-face ((t (:foreground "MediumOrchid"))) 'now)
+;; )
+
+;; (setq vc-svn-diff-switches "--extensions=-up")
+
+;; ;;;;; SKIPPING CEDET
+;; (load-file (concat ajf-config-dir "/cedet/common/cedet.el"))
+;; (semantic-load-enable-code-helpers)
+
+;; emacs code browser
+(require 'semantic/analyze)
+(provide 'semantic-analyze)
+(provide 'semantic-ctxt)
+(provide 'semanticdb)
+(provide 'semanticdb-find)
+(provide 'semanticdb-mode)
+(provide 'semantic-load)
+
+;(add-to-list 'load-path "~/ecb-2.40")
+;(require 'ecb)
+;; need to activate semantic mode first...
+(require 'ecb-autoloads nil 'noerror)
+
+;; soft wrap long lines in ecb mode
+(setq truncate-partial-width-windows nil)
+
+;; ;; ;; color highlight "TODO" "FIXME" etc.
+;; ;; (require 'highlight-fixmes-mode)
+;; ;; (defun ajf-highlight-programmer-keywords ()
+;; ;;   (highlight-fixmes-mode))
+;; ;; ;; Version from emacs-fu
+;; ;; ;; <http://emacs-fu.blogspot.com/2008/12/highlighting-todo-fixme-and-friends.html>
+;; ;; (defun ajf-highlight-programmer-keywords ()
+;; ;;   (font-lock-add-keywords nil
+;; ;; 			    '(("\\<\\(FIXME\\|TODO\\|BUG\\):"
+;; ;; 			       1 font-lock-warning-face t)
+;; ;; 			      ("\\@\\(todo)"
+;; ;; 			       1 font-lock-warning-face t))))
+
+;; ;;;
+;; ;;; C++ coding
+;; ;;;
+;; (defun my-c-mode-common-hook ()
+;;    ;; Things that only need to be run once go in progn statement (I think)
+;;   (progn
+;; ;;     ; add hide/show minor mode to c coding
+;; ;;     (hs-minor-mode 1)
+;;     ; On redrock, outline mode seems better than hideshow
+;;     (outline-minor-mode)
+;;     ; Define style for ASA/PCI
+;;     (c-add-style "asa"
+;;                  '("ellemtel"
+;;                    (c-offsets-alist . ((access-label . /)
+;;                                        (inclass . +)
+;;                                        (innamespace . 0)
+;;                                        (template-args-cont . +)
+;;                                        (arglist-cont-nonempty
+;;                                         . c-lineup-arglist)
+;;                                        (arglist-close . c-lineup-arglist)
+;;                                        (topmost-intro-cont . +))
+;;                                     )
+;;                    (c-hanging-braces-alist .
+;;                                            ((class-close before)
+;;                                             ))
+;;                    )
+;;                  )
+;;     ; Define my preferred style
+;;     (c-add-style "ajf"
+;;                  '("stroustrup"
+;;                    (c-basic-offset . 2)
+;;                    (c-offsets-alist . ((access-label . /)
+;;                                        (template-args-cont . +)
+;;                                        (arglist-cont-nonempty
+;;                                         . c-lineup-arglist)
+;;                                        (arglist-close . c-lineup-arglist)
+;;                                        (topmost-intro-cont . +))
+;;                                     )
+;;                    (c-hanging-braces-alist
+;;                     . ((defun-open after)
+;;                        (class-open after)
+;;                        (inline-open after)
+;;                        (substatement-open after)
+;;                        (class-close)  ; maybe add a function to add
+;;                                       ; the semicolon as well?
+;;                        (brace-list-open)
+;;                        (brace-list-close))
+;;                     )
+;;                    )
+;;                  )
+;;     ; Setup auto-newlines
+;;     (c-toggle-auto-newline t)
+;;     (define-key c-mode-base-map (kbd "RET") 'newline-and-indent)
+;;     )
+;;   ;; Things to be run per buffer go here (I think)
+;; ;  (senator-minor-mode)  ; I would like senator minor mode to only run in ecb,
+;;                         ; but I haven't had any luck.
+;;   (setq indent-tabs-mode nil)
+;;   (when (and buffer-file-name
+;;              (string-match "/asa\\(-git\\)?/" buffer-file-name))
+;;     (c-set-style "asa")
+;;     )
+;;   (require 'doxymacs nil 'noerror)
+;;   (if (featurep 'doxymacs) 
+;;       ((doxymacs-mode t)
+;;        (doxymacs-font-lock)
+;;        )
+;;     )
+;; ;;   ; This only works for semantic 1.0pre6, but that's so buggy it hangs Emacs
+;; ;;   ; I don't think the gcc stuff is necessary, but it's here to be safe
+;; ;;   (require 'semantic-gcc)
+;; ;;   (semantic-gcc-setup)
+;;   ; semantic doesn't parse the directory names correctly.  (It wants
+;;   ; to look in /usr/usr/include...)  Here's a kludge to append the
+;;   ; correct versions
+;;   (mapc '(lambda (dir)
+;;          (semantic-add-system-include
+;;           (replace-regexp-in-string "^/usr/usr" "/usr" dir t t)))
+;;        semantic-dependency-system-include-path)
+;;   (semantic-load-enable-code-helpers)
+;;   (semantic-decoration-mode)
+;;   (semantic-stickyfunc-mode)
+;; ;;   (ajf-highlight-programmer-keywords)
+;;     )
+;; (add-hook 'c-mode-hook 'my-c-mode-common-hook)
+;; (add-hook 'c++-mode-hook 'my-c-mode-common-hook)
+;; (setq c-default-style "ajf")
+
+;;;
+;;; Python
+;;;
+
+
+;; ;; Using pymacs 0.24-beta1 with uniquify breaks all help commands
+;; ;; <http://groups.google.com/group/rope-dev/browse_thread/thread/7e41647ecc337cb7>
+;; ;; ;; Ropemacs
+;; ;; (require 'pymacs)
+
+
+;; ;; ipython mode -- does not work with Emacs22 python.el
+;; ;(require 'ipython)
+
+;; ;; ; strip trailing whitespace from lines when saving
+;; ;; (add-to-list 'nuke-trailing-whitespace-always-major-modes
+;; ;;              'python-mode)
+
+(require 'which-func)
+(add-to-list 'which-func-modes 'python-mode)
+
+; python mode customization
+(add-hook 'python-mode-hook
+          (lambda ()
+            (progn
+              (define-key python-mode-map "\C-m" 'newline-and-indent)
+;;               (pymacs-load "ropemacs" "rope-")
+;; Newest version of ropemacs has its own menu.  No longer need old one.
+;;            (defun ropemacs-toggle-confirm-saving ()
+;;              (interactive)
+;;              (if ropemacs-confirm-saving
+;;                  (setq ropemacs-confirm-saving nil)
+;;                (setq ropemacs-confirm-saving t)
+;;                )
+;;              )
+;;            (defun rope-generate-menu ()
+;;              (easy-menu-define rope-menu python-mode-map "Rope"
+;;                '("Rope"
+;;                  ["Open project" rope-open-project]
+;;                  ["Configure project" rope-project-config]
+;;                  ["Close project" rope-close-project]
+;;                  ["Find file" rope-find-file]
+;;                  "---"
+;;                  ["Undo" rope-undo]
+;;                  ["Redo" rope-redo]
+;;                  ("Create..."
+;;                   ["Module" rope-create-module]
+;;                   ["Package" rope-create-package]
+;;                   ["File" rope-create-file]
+;;                   ["Directory" rope-create-directory])
+;;                  "---"
+;;                  ["Rename" rope-rename]
+;;                  ["Extract variable" rope-extract-variable]
+;;                  ["Extract method" rope-extract-method]
+;;                  ["Inline variable" rope-inline]
+;;                  ["Move" rope-move]
+;;                  ["Restructure" rope-restructure]
+;;                  ["Use function" rope-use-function]
+;;                  ["Rename module" rope-rename-current-module]
+;;                  ["Move module" rope-move-current-module]
+;;                  ["Convert module to package" rope-module-to-package]
+;;                  "---"
+;;                  ["Organize imports" rope-organize-imports]
+;;                  ("Generate..."
+;;                   ["Variable" rope-generate-variable]
+;;                   ["Function" rope-generate-function]
+;;                   ["Class" rope-generate-class]
+;;                   ["Module" rope-generate-module]
+;;                   ["Package" rope-generate-package])
+;;                  "---"
+;;                  ["Code assist" rope-code-assist]
+;;                  ["Go to definition" rope-goto-definition]
+;;                  ["Show doc" rope-show-doc]
+;;                  ["Find occurrences" rope-find-occurrences]
+;;                  ["Lucky assist" rope-lucky-assist]
+;;                  "---"
+;;                  ["Confirm saving" ropemacs-toggle-confirm-saving
+;;                  :style toggle :selected ropemacs-confirm-saving]
+;;                  )
+;;                )
+;;              (easy-menu-add rope-menu python-mode-map)
+;;              )
+;;            (rope-generate-menu)
+              )
+;;             (ropemacs-mode t)
+            ; HideShow is better for Python.  Outline mode doesn't
+            ; seem to fold functions correctly as often
+            (hs-minor-mode)
+	    ;(outline-minor-mode) Set indentation to 2 spaces.  Use
+            ; python-guess-indent for pre-existing files
+            (setq python-indent 2)
+            (when (and buffer-file-name
+                       (string-match "/asa\\(-git\\)?/" buffer-file-name))
+              (set-variable 'python-indent 3 t)
+              )
+;; 	    (ajf-highlight-programmer-keywords)
+            )
+          )
+
+
+; Jamfile mode
+(require 'jam-mode nil 'noerror)
+;; (if (featurep 'jam-mode)
+;;     (setq jam-indent-size 3)
+;; )
+
+;;; Go-mode
+(require 'go-mode-load)
+
+;; ;;;;; SKIPPING latex stuff
+
+;; ;;;;; SKIPPING longlines-show-effect
+
+;; ;;
+;; ;; Add new automatic modes for files
+;; ;;
+;; (setq auto-mode-alist (append
+;;                        '(("\\.gnu-emacs\\(-custom\\)?\\'" . lisp-mode)
+;;                          ("/asa\\(-git\\)?/.*\\.h\\'" . c++-mode)
+;;                          ("Jamroot" . jam-mode)
+;;                          (".*\\.jam\\'" . jam-mode))
+;;                        auto-mode-alist)
+;; )
+
+;; From <http://www.emacswiki.org/cgi-bin/wiki/UntabifyUponSave>
+ (defun ska-untabify ()
+   "Stefan Kamphausen's untabify function as discussed and described at
+ http://www.jwz.org/doc/tabs-vs-spaces.html
+ and improved by Claus Brunzema:
+ - return nil to get `write-contents-hooks' to work correctly
+   (see documentation there)
+ - `make-local-hook' instead of `make-local-variable'
+ - when instead of if
+ Use some lines along the following for getting this to work in the
+ modes you want it to:
+ 
+ \(add-hook 'some-mode-hook  
+           '(lambda () 
+               (make-local-hook 'write-contents-hooks) 
+                (add-hook 'write-contents-hooks 'ska-untabify nil t)))"
+   (save-excursion
+     (goto-char (point-min))
+     (when (search-forward "\t" nil t)
+       (untabify (1- (point)) (point-max)))
+     nil))
+
+(autoload 'markdown-mode "markdown-mode")
+(add-to-list 'auto-mode-alist '("\\.mdwn" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
+(add-hook 'markdown-mode-hook
+           '(lambda ()
+              (make-local-hook 'write-contents-hooks)
+              (add-hook 'write-contents-hooks 'ska-untabify nil t)))
+
+;; TeX mode
+(load "~/.emacs.d/dotemacs.tex.el")
+
+;; ;; Desktop save mode
+;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
+;; ;(desktop-save-mode 1)
+
+;; Save customized settings into separate file
+;; <http://www.emacsblog.org/>
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file 'noerror)
