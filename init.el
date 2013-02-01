@@ -14,7 +14,15 @@
 ;;;
 
 ;; Add go mode here first, so my local stuff overrides it
-(setq load-path (cons "/usr/lib/go/misc/emacs" load-path))
+
+(require 'cl)
+
+(setq load-path
+ (append
+  (remove-if-not 'file-directory-p '("/usr/lib/go/misc/emacs"
+                                     "/usr/lib/google-golang/misc/emacs/"))
+  load-path)
+)
 
 ; Backport Emacs23 user-emacs-directory variable to older versions
 (unless (boundp 'user-emacs-directory)
