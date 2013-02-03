@@ -53,6 +53,34 @@
 ;;                  load-path)
 ;;       )
 
+;; Missing package handling
+;;
+;; Taken from <http://www.mygooglest.com/fni/dot-emacs.html>
+
+(defvar missing-packages-list nil
+  "List of packages that `try-require' can't find.")
+
+;; attempt to load a feature/library, failing silently
+(defun try-require (feature)
+  "Attempt to load a library or module. Return true if the
+library given as argument is successfully loaded. If not, instead
+of an error, just add the package to a list of missing packages."
+  (condition-case err
+      ;; protected form
+      (progn
+        (message "Checking for library `%s'..." feature)
+        (if (stringp feature)
+            (load-library feature)
+          (require feature))
+        (message "Checking for library `%s'... Found" feature))
+    ;; error handler
+    (file-error  ; condition
+     (progn
+       (message "Checking for library `%s'... Missing" feature)
+       (add-to-list 'missing-packages-list feature 'append))
+     nil)))
+
+
 ;; ;;; load cedet
 ;; ; First we need to load the correct version of cedet libraries overloading
 ;; ; debian's default
@@ -715,6 +743,10 @@
 ;; ;; Desktop save mode
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
 ;; ;(desktop-save-mode 1)
+
+;; warn that some packages were missing
+(if missing-packages-list
+    (progn (message "Packages not found: %S" missing-packages-list)))
 
 ;; Save customized settings into separate file
 ;; <http://www.emacsblog.org/>
