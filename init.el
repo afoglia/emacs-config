@@ -422,6 +422,16 @@ of an error, just add the package to a list of missing packages."
 (setq glasses-face 'italic)
 
 
+;; Automatic smerge mode
+(autoload 'smerge-mode "smerge-mode" nil t)
+(defun sm-try-smerge ()
+  (save-excursion
+    (goto-char (point-min))
+    (when (re-search-forward "^<<<<<<< " nil t)
+      (smerge-mode 1))))
+(add-hook 'find-file-hooks 'sm-try-smerge t)
+
+
 ;; Put a2ps in the File menu
 (when (load "a2ps-print" 'noerror)
     (setq a2ps-switches `("-C"))
