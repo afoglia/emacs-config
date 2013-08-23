@@ -701,6 +701,12 @@ of an error, just add the package to a list of missing packages."
             (progn
               (define-key go-mode-map (kbd "RET") 'newline-and-indent))))
 
+
+;;; Gyp mode
+;;; from <https://code.google.com/p/gyp/source/browse/trunk/tools/emacs/>
+(try-require 'gyp)
+
+
 ;; ;;;;; SKIPPING latex stuff
 
 ;; ;;;;; SKIPPING longlines-show-effect
@@ -749,6 +755,16 @@ of an error, just add the package to a list of missing packages."
 
 ;; TeX mode
 (load "~/.emacs.d/dotemacs.tex.el")
+
+
+;; SWIG mode
+(when (try-require 'swig-mode)
+  (add-to-list 'auto-mode-alist '("\\.swig\\'" . swig-mode))
+  (add-to-list 'auto-mode-alist '("\\.i\\'" . swig-mode))
+  )
+
+;; Protocol buffer mode
+(try-require 'protobuf-mode)
 
 ;; ;; Desktop save mode
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
