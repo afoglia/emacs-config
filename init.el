@@ -102,93 +102,93 @@ of an error, just add the package to a list of missing packages."
 ;; ;;
 ;; ;; Color themes
 ;; ;;
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     )
-  )
-;; (require 'color-theme-autoloads "color-theme-autoloads")
-(when (require 'color-theme-hober2 "color-theme-hober2" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-hober2 "Hober2"
-				    "Edward O'Connor <ted@oconnor.cx>")
-	       )
-  )
-(when (require 'color-theme-inkpot "color-theme-inkpot" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-inkpot "Inkpot" "From EmacsWiki")
-	       )
-  )
-(when (require 'color-theme-tango "color-theme-tango" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-tango "Tango" "danranx@gmail.com")
-	       )
-  )
-(when (require 'color-theme-blackboard "color-theme-blackboard" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-blackboard "Blackboard" "jdhuntington@gmail.com")
-	       )
-  )
-; Something in zenburn changes the foreground color of the buffer name
-; in the mode-line when loaded, even if not the current color-theme
-;; (require 'zenburn "zenburn")
-;; (add-to-list 'color-themes
-;; 	     '(zenburn "Zenburn" "Daniel Brockman <daniel@brockman.se>")
-;; 	     )
-(when (require 'color-theme-desert "color-theme-desert" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-desert
-		 "Desert"
-		 "Sergei Lebedev <superbobry@gmail.com>")
-	       )
-  )
-(when (require 'color-theme-twilight "color-theme-twilight" 'noerror)
-  (add-to-list 'color-themes
-               '(color-theme-twilight
-                 "Twilight"
-                 "Marcus Crafter <crafterm@redartisan.com>")
-               )
-  )
-(when (require 'color-theme-monokai "monokai-theme" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-monokai
-		 "Monokai"
-		 "Operator <rectifier04@gmail.com>")
-	       )
-  )
-(when (require 'color-theme-molokai "color-theme-molokai" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-molokai
-		 "Molokai"
-		 "Adam Lloyd <adam@alloy-d.net>")
-	       )
-  )
-(when (require 'color-theme-anothermonokai "anothermonokai" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-anothermonokai
-		 "AnotherMonokai"
-		 "https://github.com/stafu/AnotherMonokai")
-	       )
-  )
-(when (require 'color-theme-billc "color-theme-billc" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-billc
-		 "BillC"
-		 "Bill Clementson <billclem@gmail.com>")
-	       )
-  )
-(when (require 'color-theme-tangotango "color-theme-tangotango" 'noerror)
-  (add-to-list 'color-themes
-	       '(color-theme-tangotango
-		 "TangoTango"
-		 "Julian Barnier <julien@nozav.org")
-	       )
-  )
-;; My current prefered color theme
-;(color-theme-desert)
-(color-theme-tango)
-
+(when (try-require 'color-theme)
+  (eval-after-load "color-theme"
+    '(progn
+       (color-theme-initialize)
+       )
+    )
+  ;; (require 'color-theme-autoloads "color-theme-autoloads")
+  (when (require 'color-theme-hober2 "color-theme-hober2" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-hober2 "Hober2"
+				      "Edward O'Connor <ted@oconnor.cx>")
+		 )
+    )
+  (when (require 'color-theme-inkpot "color-theme-inkpot" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-inkpot "Inkpot" "From EmacsWiki")
+		 )
+    )
+  (when (require 'color-theme-tango "color-theme-tango" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-tango "Tango" "danranx@gmail.com")
+		 )
+    )
+  (when (require 'color-theme-blackboard "color-theme-blackboard" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-blackboard "Blackboard" "jdhuntington@gmail.com")
+		 )
+    )
+					; Something in zenburn changes the foreground color of the buffer name
+					; in the mode-line when loaded, even if not the current color-theme
+  ;; (require 'zenburn "zenburn")
+  ;; (add-to-list 'color-themes
+  ;; 	     '(zenburn "Zenburn" "Daniel Brockman <daniel@brockman.se>")
+  ;; 	     )
+  (when (require 'color-theme-desert "color-theme-desert" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-desert
+		   "Desert"
+		   "Sergei Lebedev <superbobry@gmail.com>")
+		 )
+    )
+  (when (require 'color-theme-twilight "color-theme-twilight" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-twilight
+		   "Twilight"
+		   "Marcus Crafter <crafterm@redartisan.com>")
+		 )
+    )
+  (when (require 'color-theme-monokai "monokai-theme" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-monokai
+		   "Monokai"
+		   "Operator <rectifier04@gmail.com>")
+		 )
+    )
+  (when (require 'color-theme-molokai "color-theme-molokai" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-molokai
+		   "Molokai"
+		   "Adam Lloyd <adam@alloy-d.net>")
+		 )
+    )
+  (when (require 'color-theme-anothermonokai "anothermonokai" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-anothermonokai
+		   "AnotherMonokai"
+		   "https://github.com/stafu/AnotherMonokai")
+		 )
+    )
+  (when (require 'color-theme-billc "color-theme-billc" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-billc
+		   "BillC"
+		   "Bill Clementson <billclem@gmail.com>")
+		 )
+    )
+  (when (require 'color-theme-tangotango "color-theme-tangotango" 'noerror)
+    (add-to-list 'color-themes
+		 '(color-theme-tangotango
+		   "TangoTango"
+		   "Julian Barnier <julien@nozav.org")
+		 )
+    )
+  ;; My current prefered color theme
+					;(color-theme-desert)
+  (color-theme-tango)
+)
 ;;; Quiet startup
 
 ;; Shut off startup message
