@@ -695,11 +695,12 @@ of an error, just add the package to a list of missing packages."
 ;; )
 
 ;;; Go-mode
-(require 'go-mode-load)
-(add-hook 'go-mode-hook
-          (lambda ()
-            (progn
-              (define-key go-mode-map (kbd "RET") 'newline-and-indent))))
+(when (try-require 'go-mode-load)
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (progn
+                (define-key go-mode-map (kbd "RET") 'newline-and-indent))))
+)
 
 
 ;;; Gyp mode
