@@ -764,6 +764,10 @@ of an error, just add the package to a list of missing packages."
   (add-to-list 'auto-mode-alist '("\\.i\\'" . swig-mode))
   )
 
+;; conf-mode for certain config files
+(add-to-list 'auto-mode-alist '(".gitconfig" . conf-mode))
+(add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
+
 ;; Protocol buffer mode
 (try-require 'protobuf-mode)
 
