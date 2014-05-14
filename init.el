@@ -218,6 +218,50 @@ of an error, just add the package to a list of missing packages."
 ;(setq frame-title-format "%*%b ")
 ;; (setq icon-title-format frame-title-format)
 
+;; Emacs package support
+(require 'package)
+(package-initialize)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+(when (try-require 'projectile)
+  (projectile-global-mode)
+  (setq projectile-enable-caching t)
+  (if (< emacs-major-version 24)
+  ; Backport remote-file-name-inhibit-cache from files.el in Emacs 24
+  ; http://lists.gnu.org/archive/html/emacs-diffs/2010-10/msg00035.html
+(defcustom remote-file-name-inhibit-cache 10
+  "Whether to use the remote file-name cache for read access.
+
+When `nil', always use the cached values.
+When `t', never use them.
+A number means use them for that amount of seconds since they were
+cached.
+
+File attributes of remote files are cached for better performance.
+If they are changed out of Emacs' control, the cached values
+become invalid, and must be invalidated.
+
+In case a remote file is checked regularly, it might be
+reasonable to let-bind this variable to a value less then the
+time period between two checks.
+Example:
+
+  \(defun display-time-file-nonempty-p \(file)
+    \(let \(\(remote-file-name-inhibit-cache \(- display-time-interval 5)))
+      \(and \(file-exists-p file)
+           \(< 0 \(nth 7 \(file-attributes \(file-chase-links file)))))))"
+  :group 'files
+  :version "24.1"
+  :type `(choice
+         (const   :tag "Do not inhibit file name cache" nil)
+         (const   :tag "Do not use file name cache" t)
+         (integer :tag "Do not use file name cache"
+                  :format "Do not use file name cache older then %v seconds"
+                  :value 10)))
+)
+)
+
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward)
 ;; from <http://trey-jackson.blogspot.com/2008/01/emacs-tip-11-uniquify.html>
