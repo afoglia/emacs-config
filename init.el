@@ -819,6 +819,11 @@ Example:
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
 ;; ;(desktop-save-mode 1)
 
+(setq local-init-file "~/.emacs.d/init-local.el")
+(if (file-exists-p local-init-file)
+    (load local-init-file)
+)
+
 ;; warn that some packages were missing
 (if missing-packages-list
     (progn (message "Packages not found: %S" missing-packages-list)))
