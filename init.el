@@ -739,11 +739,15 @@ Example:
 ;; )
 
 ;;; Go-mode
-(when (try-require 'go-mode-load)
+(when (or (try-require 'go-mode) (try-require 'go-mode-load))
   (add-hook 'go-mode-hook
             (lambda ()
               (progn
-                (define-key go-mode-map (kbd "RET") 'newline-and-indent))))
+                (define-key go-mode-map (kbd "RET") 'newline-and-indent))
+              (setq tab-width 2)
+              (setq indent-tabs-mode 1)
+              )
+            )
 )
 
 
