@@ -219,10 +219,12 @@ of an error, just add the package to a list of missing packages."
 ;; (setq icon-title-format frame-title-format)
 
 ;; Emacs package support
-(require 'package)
-(package-initialize)
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(when (>= emacs-major-version 23)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+)
 
 (when (try-require 'projectile)
   (projectile-global-mode)
@@ -365,7 +367,7 @@ Example:
 ; linum -- Shows line numbers for each buffer line
 ; activate with M-x linum-mode
 ; doesn't play nice with my fix-window-width
-(require 'linum)
+(try-require 'linum)
 
 ; Don't use tab characters
 (setq-default indent-tabs-mode nil)
@@ -515,13 +517,14 @@ Example:
 ;; (semantic-load-enable-code-helpers)
 
 ;; emacs code browser
-(require 'semantic/analyze)
-(provide 'semantic-analyze)
-(provide 'semantic-ctxt)
-(provide 'semanticdb)
-(provide 'semanticdb-find)
-(provide 'semanticdb-mode)
-(provide 'semantic-load)
+(when (try-require 'semantic/analyze)
+  (provide 'semantic-analyze)
+  (provide 'semantic-ctxt)
+  (provide 'semanticdb)
+  (provide 'semanticdb-find)
+  (provide 'semanticdb-mode)
+  (provide 'semantic-load)
+)
 
 ;(add-to-list 'load-path "~/ecb-2.40")
 ;(require 'ecb)
