@@ -29,18 +29,34 @@
   (defvar user-emacs-directory "~/.emacs.d/"
     "Directory beneath which additional per-user Emacs-specificfiles are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'."))
 
-
+;; Set up custom load paths
+;;
+;; First look under ~/.emacs.d/emacs-<version>/site-lisp and children
+;; Then look under ~/.emacs.d/site-lisp and children
+;; Finally, original load-path
 (defconst ajf-config-dir (concat user-emacs-directory
                                  (convert-standard-filename "site-lisp/")))
-(if (file-accessible-directory-p ajf-config-dir)
-    (let ((default-directory ajf-config-dir))
-      (setq load-path
-            (append
-             (let ((load-path (copy-sequence load-path))) ;; Shadow
-               (append
-                (copy-sequence (normal-top-level-add-to-load-path '(".")))
-                (normal-top-level-add-subdirs-to-load-path)))
-             load-path))))
+
+(mapc (lambda (path-directory)
+	(let ((default-directory path-directory))
+	  (setq load-path
+		(append
+		 (let ((load-path (copy-sequence load-path))) ;; Shadow
+		   (append
+		    (copy-sequence
+		     (normal-top-level-add-to-load-path '(".")))
+		    (normal-top-level-add-subdirs-to-load-path)))
+		 load-path)
+		)
+	  )
+	)
+      (list ajf-config-dir
+	    (concat user-emacs-directory
+		    (convert-standard-filename
+		     (format "emacs-%d/site-lisp" emacs-major-version))
+		    )
+	    )
+      )
 
 ;; (setq load-path (append
 ;; 		 (list ;ajf-config-dir
@@ -223,7 +239,7 @@ of an error, just add the package to a list of missing packages."
   (require 'package)
   (package-initialize)
   (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
+               '("melpa" . "http://melpa.org/packages/") t)
 )
 
 (when (try-require 'projectile)
