@@ -558,6 +558,11 @@ Example:
   (provide 'semantic-load)
 )
 
+;; stickyfunc-enhance
+;; https://github.com/tuhdo/semantic-stickyfunc-enhance
+(when (try-require 'stickyfunc-enhance)
+  (add-to-list 'semantic-default-submodes 'global-semantic-stickyfunc-mode))
+
 ;(add-to-list 'load-path "~/ecb-2.40")
 ;(require 'ecb)
 ;; need to activate semantic mode first...
