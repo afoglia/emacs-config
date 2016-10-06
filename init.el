@@ -432,6 +432,12 @@ Example:
 ;;   (interactive)
 ;;   (setq nuke-trailing-whitespace-p nil))
 
+;; Use ws-butler to delete whitespace only on modified lines
+;; https://github.com/lewang/ws-butler
+(when (try-require 'ws-butler)
+  (setq ws-butler-keep-whitespace-before-point nil)
+)
+
 ;; Function to highlight lines longer that run over 80 columns
 (defun show-overlong-lines ()
   (interactive)
@@ -752,6 +758,8 @@ Example:
 	    ;(outline-minor-mode) Set indentation to 2 spaces.  Use
             ; python-guess-indent for pre-existing files
             (setq python-indent 2)
+            ; strip trailing whitespace
+            (ws-butler-mode)
             (when (and buffer-file-name
                        (string-match "/asa\\(-git\\)?/" buffer-file-name))
               (set-variable 'python-indent 3 t)
