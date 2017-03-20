@@ -96,6 +96,13 @@ of an error, just add the package to a list of missing packages."
        (add-to-list 'missing-packages-list feature 'append))
      nil)))
 
+;; Emacs package support
+(when (>= emacs-major-version 23)
+  (require 'package)
+  (package-initialize)
+  (add-to-list 'package-archives
+               '("melpa" . "http://melpa.org/packages/") t)
+)
 
 ;; ;;; load cedet
 ;; ; First we need to load the correct version of cedet libraries overloading
@@ -234,13 +241,12 @@ of an error, just add the package to a list of missing packages."
 ;(setq frame-title-format "%*%b ")
 ;; (setq icon-title-format frame-title-format)
 
-;; Emacs package support
-(when (>= emacs-major-version 23)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/") t)
-)
+;; On OSX, get path from shell, not default.
+;; https://melpa.org/#/exec-path-from-shell
+(message "windows-system == %s" window-system)
+(if (memq window-system '(mac ns))
+    (when (try-require 'exec-path-from-shell)
+      (exec-path-from-shell-initialize)))
 
 (when (try-require 'projectile)
   (projectile-global-mode)
