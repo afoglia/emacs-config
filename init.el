@@ -45,7 +45,8 @@
 		   (append
 		    (copy-sequence
 		     (normal-top-level-add-to-load-path '(".")))
-		    (normal-top-level-add-subdirs-to-load-path)))
+		    (when (file-directory-p default-directory)
+                     (normal-top-level-add-subdirs-to-load-path))))
 		 load-path)
 		)
 	  )
