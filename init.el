@@ -848,6 +848,12 @@ Example:
 ;; Protocol buffer mode
 (try-require 'protobuf-mode)
 
+;; sh-mode settings
+(add-hook 'sh-mode-hook (lambda ()
+                          (setq indent-tabs-mode nil)
+                          (setq sh-basic-offset 2)
+                          (setq indentation 2)))
+
 ;; ;; Desktop save mode
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
 ;; ;(desktop-save-mode 1)
