@@ -827,9 +827,9 @@ Example:
 (add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
 (add-hook 'markdown-mode-hook
-           '(lambda ()
-              (make-local-hook 'write-contents-hooks)
-              (add-hook 'write-contents-hooks 'ska-untabify nil t)))
+           (lambda ()
+             (make-local-hook 'write-contents-hooks)
+             (add-hook 'write-contents-hooks 'ska-untabify nil t)))
 
 ;; TeX mode
 (load "~/.emacs.d/dotemacs.tex.el")
