@@ -844,6 +844,8 @@ Example:
 (add-to-list 'auto-mode-alist '("\\.mdwn" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
+(setq markdown-fontify-code-blocks-natively t)
+(setq markdown-spaces-after-code-fence 0)
 (add-hook 'markdown-mode-hook
            (lambda ()
              (make-local-hook 'write-contents-hooks)
