@@ -861,6 +861,9 @@ Example:
   (add-to-list 'auto-mode-alist '("\\.i\\'" . swig-mode))
   )
 
+;; Use python-mode for .pythonrc
+(add-to-list 'auto-mode-alist '(".pythonrc" . python-mode))
+
 ;; conf-mode for certain config files
 (add-to-list 'auto-mode-alist '(".gitconfig" . conf-mode))
 (add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
