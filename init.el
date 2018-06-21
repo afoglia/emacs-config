@@ -510,6 +510,11 @@ Example:
 (add-hook 'find-file-hooks 'sm-try-smerge t)
 
 
+;; Flycheck
+(when (try-require 'flycheck)
+  (global-flycheck-mode))
+
+
 ;; Put a2ps in the File menu
 (when (load "a2ps-print" 'noerror)
     (setq a2ps-switches `("-C"))
