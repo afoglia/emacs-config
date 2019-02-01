@@ -903,5 +903,10 @@ Example:
 
 ;; Save customized settings into separate file
 ;; <http://www.emacsblog.org/>
-(setq custom-file "~/.emacs.d/custom.el")
+(cond ((<= emacs-major-version 23)
+       (setq custom-file "~/.emacs.d/custom-23.el"))
+      (t
+       ;; Emacs version 24 and later
+       (setq custom-file "~/.emacs.d/custom.el"))
+      )
 (load custom-file 'noerror)
