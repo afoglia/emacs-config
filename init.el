@@ -255,8 +255,8 @@ of an error, just add the package to a list of missing packages."
   (if (< emacs-major-version 24)
   ; Backport remote-file-name-inhibit-cache from files.el in Emacs 24
   ; http://lists.gnu.org/archive/html/emacs-diffs/2010-10/msg00035.html
-(defcustom remote-file-name-inhibit-cache 10
-  "Whether to use the remote file-name cache for read access.
+      (defcustom remote-file-name-inhibit-cache 10
+        "Whether to use the remote file-name cache for read access.
 
 When `nil', always use the cached values.
 When `t', never use them.
@@ -276,15 +276,15 @@ Example:
     \(let \(\(remote-file-name-inhibit-cache \(- display-time-interval 5)))
       \(and \(file-exists-p file)
            \(< 0 \(nth 7 \(file-attributes \(file-chase-links file)))))))"
-  :group 'files
-  :version "24.1"
-  :type `(choice
-         (const   :tag "Do not inhibit file name cache" nil)
-         (const   :tag "Do not use file name cache" t)
-         (integer :tag "Do not use file name cache"
-                  :format "Do not use file name cache older then %v seconds"
-                  :value 10)))
-)
+        :group 'files
+        :version "24.1"
+        :type `(choice
+                (const   :tag "Do not inhibit file name cache" nil)
+                (const   :tag "Do not use file name cache" t)
+                (integer :tag "Do not use file name cache"
+                         :format "Do not use file name cache older then %v seconds"
+                         :value 10)))
+    )
 )
 
 (require 'uniquify)
