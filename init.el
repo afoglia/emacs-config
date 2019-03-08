@@ -368,6 +368,17 @@ Example:
 
 (global-set-key (kbd "C-w") 'backward-kill-word-or-kill-region)
 
+;;; Use C-c r to revert an unchanged buffer
+(global-set-key (kbd "C-c r")
+                (lambda ()
+                  (interactive)
+                  (if (not (buffer-modified-p))
+                      (progn (revert-buffer :ignore-auto :noconfirm)
+                             (message "Reverted buffer"))
+                    (error "The buffer has been modified"))
+                  )
+                )
+
 ;;;;; SKIPPING Pymacs
 
 ;; ido Mode
