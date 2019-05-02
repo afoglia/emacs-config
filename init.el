@@ -414,6 +414,9 @@ Example:
 (global-font-lock-mode t)
 
 (transient-mark-mode t)
+(when (>= emacs-major-version 24)
+  (electric-pair-mode 1)
+  )
 
 ;; Better searching with ack
 (autoload 'ack-and-a-half-same "ack-and-a-half" nil t)
