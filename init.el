@@ -384,6 +384,8 @@ Example:
 (global-set-key (kbd "C-w") 'backward-kill-word-or-kill-region)
 
 ;;; Use C-c r to revert an unchanged buffer
+;;; See https://www.emacswiki.org/emacs/RevertBuffer#toc1 for versions
+;;; that allow reverting of buffers even if modified.
 (global-set-key (kbd "C-c r")
                 (lambda ()
                   (interactive)
