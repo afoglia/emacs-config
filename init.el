@@ -547,11 +547,14 @@ Example:
 
 
 ;; Put a2ps in the File menu
+;;
+;; Need to use `load` and not `require` because a2ps doesn't "provide"
+;; a2ps-print.
 (when (load "a2ps-print" 'noerror)
     (setq a2ps-switches `("-C"))
-    ; Ubuntu/Debian puts this in the menu already...  Need to check
-    ; the load-history variable to see if it's already been loaded, or
-    ; can check the menu.
+    ;; TODO: Ubuntu/Debian puts this in the menu already...  Need to
+    ;; check the load-history variable to see if it's already been
+    ;; loaded, or can check the menu.
     (easy-menu-add-item nil
 			'("file") ["a2ps Buffer" a2ps-buffer "--"]
 			"separator-window")
