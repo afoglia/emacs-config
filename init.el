@@ -433,7 +433,12 @@ Example:
 (transient-mark-mode t)
 (when (>= emacs-major-version 24)
   (electric-pair-mode 1)
+  ;; If multiple lines, don't put trailing parentheses on separate line.
+  ;; Ideally this would depend on the pairing (so braces get their own line)
+  ;; and perhaps mode, but that's beyond my emacs-foo for now.
+  (setq electric-pair-open-newline-between-pairs nil)
   )
+
 
 ;; Better searching with ack
 (autoload 'ack-and-a-half-same "ack-and-a-half" nil t)
