@@ -741,9 +741,10 @@ Example:
 ;; ;;              'python-mode)
 
 (require 'which-func)
-;; If which-func-modes is t, then it's automatically enabled in all supporting modes.
-;; And the add-to-list will fail because it's not a list.
-(if (not (equal which-func-modes t))
+;; If which-func-modes is t, then it's automatically enabled in all
+;; supporting modes.  And the add-to-list will fail because it's not a
+;; list.
+(if (listp which-func-modes)
     (add-to-list 'which-func-modes 'python-mode)
 )
 
