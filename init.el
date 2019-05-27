@@ -402,6 +402,12 @@ Example:
 ; Check help for ido-find-file function for tips on how to use
 (ido-mode)
 (setq ido-enable-flex-matching t)
+;; ido-everywhere allows ido completion in vc-git-grep, but at the
+;; cost of overriding the file open gui. I rarely use the latter
+;; though. https://emacs.stackexchange.com/a/45447 (Maybe try
+;; ido-completing-read-plus or, instead of ido, ivy or helm.)
+;; (Also consider ido's vertical and grid modes.)
+(setq ido-everywhere t)
 (setq ido-default-file-method 'selected-window)
 (setq ido-default-buffer-method 'selected-window)
 
