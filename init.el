@@ -890,6 +890,7 @@ Example:
        (untabify (1- (point)) (point-max)))
      nil))
 
+;; Markdown mode
 (autoload 'markdown-mode "markdown-mode")
 (add-to-list 'auto-mode-alist '("\\.mdwn" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
@@ -900,6 +901,11 @@ Example:
            (lambda ()
              (make-local-hook 'write-contents-hooks)
              (add-hook 'write-contents-hooks 'ska-untabify nil t)))
+
+;; Yaml mode
+(when (try-require 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yaml" . yaml-mode)))
+
 
 ;; TeX mode
 (load "~/.emacs.d/dotemacs.tex.el")
