@@ -105,6 +105,11 @@ of an error, just add the package to a list of missing packages."
                '("melpa" . "http://melpa.org/packages/") t)
 )
 
+(when (try-require 'auto-package-update)
+  (setq auto-package-update-prompt-before-update t)
+  (auto-package-update-maybe)
+  )
+
 ;; ;;; load cedet
 ;; ; First we need to load the correct version of cedet libraries overloading
 ;; ; debian's default
