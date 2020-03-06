@@ -559,7 +559,8 @@ Example:
 
 ;; Flycheck
 (when (try-require 'flycheck)
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  (setq flycheck-idle-change-delay 4))
 
 
 ;; Put a2ps in the File menu
