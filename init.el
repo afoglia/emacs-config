@@ -483,6 +483,7 @@ Example:
 ;; https://github.com/lewang/ws-butler
 (when (try-require 'ws-butler)
   (setq ws-butler-keep-whitespace-before-point nil)
+  (ws-butler-global-mode)
 )
 
 ;; Function to highlight lines longer that run over 80 columns
