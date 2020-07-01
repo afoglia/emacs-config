@@ -729,6 +729,12 @@ Example:
 ;; (add-hook 'c++-mode-hook 'my-c-mode-common-hook)
 ;; (setq c-default-style "ajf")
 
+;;; TODO: Move up in the order
+(when (try-require 'fill-column-indicator)
+  (setq fci-rule-color "firebrick3")
+  (add-hook 'after-change-major-mode-hook (lambda () (if buffer-file-name (fci-mode 1))))
+  )
+
 ;;;
 ;;; Python
 ;;;
