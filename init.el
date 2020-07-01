@@ -973,6 +973,13 @@ Example:
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
 ;; ;(desktop-save-mode 1)
 
+
+;;; explain-pause-mode
+;;;
+;;; https://github.com/lastquestion/explain-pause-mode
+(when (try-require 'explain-pause-mode)
+  (add-hook 'after-init-hook #'explain-pause-mode))
+
 (setq local-init-file "~/.emacs.d/init-local.el")
 (if (file-exists-p local-init-file)
     (load local-init-file)
