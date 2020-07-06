@@ -420,6 +420,10 @@ Example:
 (icomplete-mode 99)
 
 
+;;; Amx
+(when (try-require 'amx)
+  (amx-mode))
+
 ;;;;; SKIPPING longlines
 
 ; Show column numbers
