@@ -760,7 +760,7 @@ Example:
 ;;     (c-set-style "asa")
 ;;     )
 ;;   (require 'doxymacs nil 'noerror)
-;;   (if (featurep 'doxymacs) 
+;;   (if (featurep 'doxymacs)
 ;;       ((doxymacs-mode t)
 ;;        (doxymacs-font-lock)
 ;;        )
@@ -977,10 +977,10 @@ Example:
  - when instead of if
  Use some lines along the following for getting this to work in the
  modes you want it to:
- 
- \(add-hook 'some-mode-hook  
-           '(lambda () 
-               (make-local-hook 'write-contents-hooks) 
+
+ \(add-hook 'some-mode-hook
+           '(lambda ()
+               (make-local-hook 'write-contents-hooks)
                 (add-hook 'write-contents-hooks 'ska-untabify nil t)))"
    (save-excursion
      (goto-char (point-min))
