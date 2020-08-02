@@ -43,10 +43,12 @@ directories.")
 
 ;; Get full paths to directories
 (let ((ajf-site-start-paths
-       (mapcar
-        (lambda (site-start-dir)
-          (concat user-emacs-directory site-start-dir))
-        ajf-site-start-dirs)))
+       (remove-if-not 'file-directory-p
+		      (mapcar
+		       (lambda (site-start-dir)
+			 (concat user-emacs-directory site-start-dir))
+		       ajf-site-start-dirs))
+       ))
 
   (if (fboundp 'debian-run-directories)
       ;; On Debian, there's a function that's already written
