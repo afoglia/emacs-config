@@ -27,7 +27,7 @@
 ; Backport Emacs23 user-emacs-directory variable to older versions
 (unless (boundp 'user-emacs-directory)
   (defvar user-emacs-directory "~/.emacs.d/"
-    "Directory beneath which additional per-user Emacs-specificfiles are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'. [backported]"))
+    "Directory beneath which additional per-user Emacs-specific files are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'. [backported]"))
 
 
 (defvar ajf-site-start-dirs '("site-start.local.d" "site-start.d")
