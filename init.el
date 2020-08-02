@@ -27,7 +27,59 @@
 ; Backport Emacs23 user-emacs-directory variable to older versions
 (unless (boundp 'user-emacs-directory)
   (defvar user-emacs-directory "~/.emacs.d/"
-    "Directory beneath which additional per-user Emacs-specificfiles are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'."))
+    "Directory beneath which additional per-user Emacs-specificfiles are placed. Various programs in Emacs store information in this directory. Note that this should end with a directory separator. See also 'locate-user-emacs-file'. [backported]"))
+
+
+(defvar ajf-site-start-dirs '("site-start.local.d" "site-start.d")
+  "List of directories to load init files from.
+
+Load files with names of the form
+[0-9][0-9]<foo>.elc? (i.e. the usual naming convention).
+Directories are listed in order of preference, so files in
+later directories can be hidden with files in earlier
+directories.")
+
+;;; Load modularized config
+
+;; Get full paths to directories
+(let ((ajf-site-start-paths
+       (mapcar
+        (lambda (site-start-dir)
+          (concat user-emacs-directory site-start-dir))
+        ajf-site-start-dirs)))
+
+  (if (fboundp 'debian-run-directories)
+      ;; On Debian, there's a function that's already written
+      (apply 'debian-run-directories ajf-site-start-paths)
+
+    ;; Otherwise, we roll our own function
+    ;;
+    ;; This is very procedural. :-(
+    (let ((basenames (list))
+          (site-start-paths ajf-site-start-paths))
+      ;; Build list of (unique) filenamess
+      (dolist (site-start-dir site-start-paths)
+        (dolist (site-start-file
+                 (directory-files
+                  site-start-dir nil "^[0-9][0-9].*\\.elc?$" t))
+          (let ((basename (file-name-sans-extension site-start-file)))
+            (cl-pushnew basename basenames)
+            )
+          )
+        )
+      (setq basenames (sort basenames 'string<))
+      ;; Add site directories to load path, and then load
+      (setq load-path (append site-start-paths load-path))
+      (dolist (basename basenames)
+        (message "loading %s" basename)
+        (load basename nil))
+      ;; Remove added items from load-path
+      (dolist (site-start-dir site-start-paths)
+        (setq load-path (remq site-start-dir load-path))
+        )
+      )
+    )
+  )
 
 ;; Set up custom load paths
 ;;
