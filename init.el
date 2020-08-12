@@ -787,10 +787,64 @@ Example:
 ;; (add-hook 'c++-mode-hook 'my-c-mode-common-hook)
 ;; (setq c-default-style "ajf")
 
+;; Fill column mode
+;;
 ;;; TODO: Move up in the order
 (when (try-require 'fill-column-indicator)
   (setq fci-rule-color "firebrick3")
-  (add-hook 'after-change-major-mode-hook (lambda () (if buffer-file-name (fci-mode 1))))
+
+  ;; A whole bunch of logic to try to handle long lines and wrapping.
+  ;;
+  ;; Based initially on
+  ;; https://www.emacswiki.org/emacs/FillColumnIndicator, but improved
+  ;; to handle frame resizes, which is what usually changes the window
+  ;; width.
+  ;;
+  ;; I have no idea how this will handle buffers shown in multiple
+  ;; windows. My guess is the fill-column-indicator mode will be
+  ;; determined by the last resized window/frame.
+  ;;
+  ;; Ironically, I wrote this just a day after emacs 27.1 was
+  ;; released, where fill-column-indicator is no longer needed,
+  ;; instead replaced by display-fill-column-indicator-mode.
+  (setq fci-handle-truncate-lines nil)
+  (defun auto-fci-mode (&optional unused)
+    "Automatically turn on fill-column-indicator mode when necessary.
+
+Turn on fci in buffers corresponding to files, shown in windows
+wide enough to show the indicator"
+    (message "Running auto-fci-mode for buffer %s, file name %s, width %s, fill width %s"
+             (buffer-name)
+             buffer-file-name
+             (window-width)
+             (or fci-rule-column fill-column))
+    (when buffer-file-name
+      (message "Checking window width")
+      (if (> (window-width) (or fci-rule-column fill-column))
+          (fci-mode 1)
+        (fci-mode 0))
+      )
+    )
+  (defun auto-fci-mode-all-windows (&optional unused)
+    (walk-windows
+     (lambda (window)
+       (with-current-buffer (window-buffer window)
+         (auto-fci-mode)))))
+
+  (add-hook 'prog-mode-hook 'auto-fci-mode)
+  (add-hook 'after-change-major-mode-hook 'auto-fci-mode)
+
+  ;; Check window width after frame resize events.
+  ;;
+  ;; This handles resizing the frame widht (and height). This doesn't
+  ;; handle if the windows within the frame change, but I can't
+  ;; remember the last time I split my frame horizontally.  To check
+  ;; for resizes of windows within a unchanged frame, a check would
+  ;; have to be done via window-configuration-change-hook.
+  (add-hook 'window-size-change-functions
+            ;; Only check window widths when column changes.
+            (lambda (frame)
+              (when (frame-size-changed-p frame) (auto-fci-mode-all-windows))))
   )
 
 ;;;
