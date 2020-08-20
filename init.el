@@ -813,13 +813,14 @@ Example:
 
 Turn on fci in buffers corresponding to files, shown in windows
 wide enough to show the indicator"
-    (message "Running auto-fci-mode for buffer %s, file name %s, width %s, fill width %s"
-             (buffer-name)
-             buffer-file-name
-             (window-width)
-             (or fci-rule-column fill-column))
+    ;; TODO: How to log at different levels?
+    ;(message "Running auto-fci-mode for buffer %s, file name %s, width %s, fill width %s"
+    ;         (buffer-name)
+    ;         buffer-file-name
+    ;         (window-width)
+    ;         (or fci-rule-column fill-column))
     (when buffer-file-name
-      (message "Checking window width")
+      ;(message "Checking window width")
       (if (> (window-width) (or fci-rule-column fill-column))
           (fci-mode 1)
         (fci-mode 0))
