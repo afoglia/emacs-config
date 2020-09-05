@@ -152,6 +152,9 @@ of an error, just add the package to a list of missing packages."
      nil)))
 
 ;; Emacs package support
+;;
+;; package-initialize may not be necessary in emacs 27. See
+;; https://github.com/emacs-mirror/emacs/blob/emacs-27/etc/NEWS
 (when (>= emacs-major-version 23)
   (require 'package)
   (package-initialize)
