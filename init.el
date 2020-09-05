@@ -474,6 +474,38 @@ Example:
 (icomplete-mode 99)
 
 
+;;; ivy
+(when (try-require 'ivy)
+  (ivy-mode))
+
+;;; Swiper
+(when (try-require 'swiper)
+  (global-set-key (kbd "C-s") 'swiper-isearch))
+
+;;; Counsel
+(if (try-require 'counsel)
+    ;; If available, use counsel-yank-pop.
+    ;;
+    ;; Ideally it would have thse properties:
+    ;;   1. Show selected yank text in buffer, like browse-kill-ring
+    ;;      does.
+    ;;   2. Mark the difference between selections in the list. With
+    ;;      multi-line snippets, it's hard to know where the snippets
+    ;;      end before selecting. It does look like there is an option
+    ;;      for that, but I fear it will take up too much room.
+    ;;
+    ;; Also, try the configuration from
+    ;; http://pragmaticemacs.com/emacs/counsel-yank-pop-with-a-tweak/
+    ;; to set up ivy-next-line. Need to switch to use-package first.
+    ;; (And it looks like it remaps M-y to ivy-next-line in every ivy
+    ;; completion minibuffer.)
+    (global-set-key (kbd "M-y") 'counsel-yank-pop)
+
+  ;; If counsel is not available, try browse-kill-ring
+  (when (require 'browse-kill-ring nil 'noerror)
+    (browse-kill-ring-default-keybindings))
+  )
+
 ;;; Amx
 (when (try-require 'amx)
   (amx-mode))
@@ -590,10 +622,6 @@ Example:
         (call-interactively 'backward-delete-char-untabify)))))
 
 (global-set-key (kbd "<DEL>") 'backward-delete-whitespace-to-column)
-
-;;; Browse kill ring
-(when (require 'browse-kill-ring nil 'noerror)
-  (browse-kill-ring-default-keybindings))
 
 
 ;; Glasses mode settings
