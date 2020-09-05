@@ -870,7 +870,7 @@ wide enough to show the indicator"
 
   ;; Check window width after frame resize events.
   ;;
-  ;; This handles resizing the frame widht (and height). This doesn't
+  ;; This handles resizing the frame width (and height). This doesn't
   ;; handle if the windows within the frame change, but I can't
   ;; remember the last time I split my frame horizontally.  To check
   ;; for resizes of windows within a unchanged frame, a check would
