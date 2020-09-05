@@ -649,6 +649,8 @@ Example:
   (global-flycheck-mode)
   (setq flycheck-idle-change-delay 4))
 
+;; flyspell
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
 ;; Put a2ps in the File menu
 ;;
