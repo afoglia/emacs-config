@@ -1113,7 +1113,9 @@ wide enough to show the indicator"
 (add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
 
 ;; Protocol buffer mode
-(try-require 'protobuf-mode)
+(when (try-require 'protobuf-mode)
+  (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
+  )
 
 ;; sh-mode settings
 (add-hook 'sh-mode-hook (lambda ()
