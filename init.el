@@ -2,12 +2,18 @@
 ;;;
 ;;; In emacs 23, Ubuntu 12.04, emacs no longer respects the settings
 ;;; in .Xresources.
-(set-default-font "Terminus-9")
+;;;
+;;; Set font to Terminus. Using the TTF version for now. The bolding
+;;; doesn't look nice at the small size I prefer, but the xfont
+;;; version doesn't have bold (at least not easily), and is missing in
+;;; the newest Debian packages.
+;;;
+;;; Recently, Debian changed the name of the font from "Terminus" to
+;;; "Terminus (TTF)"
+(if (member "Terminus (TTF)" (font-family-list))
+    (set-frame-font "Terminus (TTF)-9" nil t)
+    (set-frame-font "Terminus-9" nil t))
 
-;;; Need to set it for each frame...  Ugh.
-;;; <http://superuser.com/questions/210555/emacs-font-settings-not-working-in-new-frame>
-(add-to-list 'default-frame-alist
-             '(font . "Terminus-9"))
 
 ;;;
 ;;; Set up path
