@@ -5,8 +5,13 @@
 ;;;
 ;;; Set font to Terminus. Using the TTF version for now. The bolding
 ;;; doesn't look nice at the small size I prefer, but the xfont
-;;; version doesn't have bold (at least not easily), and is missing in
-;;; the newest Debian packages.
+;;; version doesn't have bold (perhaps there's some way to set emacs
+;;; to use the bold font version explicitly), and is missing in the
+;;; newest Debian packages.
+;;;
+;;; The xfont version, on Ubuntu 20.04.1 at least, is refered to by
+;;; the full name:
+;;; Terminus:pixelsize=18:foundry=xos4:weight=normal:slant=normal:width=normal:spacing=110:scalable=fals
 ;;;
 ;;; Recently, Debian changed the name of the font from "Terminus" to
 ;;; "Terminus (TTF)"
