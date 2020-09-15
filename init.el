@@ -494,7 +494,9 @@ Example:
 
 ;;; Swiper
 (when (try-require 'swiper)
-  (global-set-key (kbd "C-s") 'swiper-isearch))
+  (global-set-key (kbd "C-s") 'swiper-isearch)
+  (global-set-key (kbd "C-r") 'swiper-isearch-backward)
+  (define-key swiper-map (kbd "C-r") 'ivy-previous-line-or-history))
 
 ;;; Counsel
 (if (try-require 'counsel)
