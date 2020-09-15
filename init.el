@@ -515,7 +515,9 @@ Example:
     ;; to set up ivy-next-line. Need to switch to use-package first.
     ;; (And it looks like it remaps M-y to ivy-next-line in every ivy
     ;; completion minibuffer.)
-    (global-set-key (kbd "M-y") 'counsel-yank-pop)
+    (progn
+      (global-set-key (kbd "M-y") 'counsel-yank-pop)
+      (global-set-key (kbd "C-x b") 'counsel-switch-buffer))
 
   ;; If counsel is not available, try browse-kill-ring
   (when (require 'browse-kill-ring nil 'noerror)
