@@ -517,7 +517,8 @@ Example:
     ;; completion minibuffer.)
     (progn
       (global-set-key (kbd "M-y") 'counsel-yank-pop)
-      (global-set-key (kbd "C-x b") 'counsel-switch-buffer))
+      (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
+      (global-set-key (kbd "M-x") 'counsel-M-x))
 
   ;; If counsel is not available, try browse-kill-ring
   (when (require 'browse-kill-ring nil 'noerror)
