@@ -1169,6 +1169,18 @@ wide enough to show the indicator"
 (when (try-require 'explain-pause-mode)
   (add-hook 'after-init-hook #'explain-pause-mode))
 
+
+;; Mercurial command server vc backend
+;; https://github.com/muffinmad/emacs-vc-hgcmd
+;;
+;; Much faster for work clients.
+;;
+;; TODO: Move above loading the local init, and add a version in the
+;; local init for work clients.
+(when (try-require 'vc-hgcmd)
+  (add-to-list 'vc-handled-backends 'Hgcmd))
+
+
 (setq local-init-file "~/.emacs.d/init-local.el")
 (if (file-exists-p local-init-file)
     (load local-init-file)
