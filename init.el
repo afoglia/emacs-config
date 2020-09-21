@@ -687,6 +687,7 @@ Example:
 ;; flyspell
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
+
 ;; Put a2ps in the File menu
 ;;
 ;; Need to use `load` and not `require` because a2ps doesn't "provide"
@@ -700,12 +701,6 @@ Example:
 			'("file") ["a2ps Buffer" a2ps-buffer "--"]
 			"separator-window")
 )
-;; (load "a2ps-print")
-;; (setq a2ps-switches `("-C"))
-;; (easy-menu-add-item nil
-;;                     '("file") ["a2ps Buffer" a2ps-buffer "--"]
-;;                     "separator-window")
-
 
 
 ;; ;; ;; dsvn is supposedly faster than psvn for large trees, but it has
