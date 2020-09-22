@@ -1138,9 +1138,15 @@ wide enough to show the indicator"
 ;; Use python-mode for .pythonrc
 (add-to-list 'auto-mode-alist '(".pythonrc" . python-mode))
 
-;; conf-mode for certain config files
-(add-to-list 'auto-mode-alist '(".gitconfig" . conf-mode))
+
+;; Modes for certain config files
+(if (try-require 'gitconfig-mode)
+    (add-to-list 'auto-mode-alist '(".gitconfig.local" . gitconfig-mode))
+  (add-to-list 'auto-mode-alist '(".gitconfig" . conf-mode))
+  (add-to-list 'auto-mode-alist '(".gitconfig.local" . conf-mode))
+  )
 (add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
+
 
 ;; Protocol buffer mode
 (when (try-require 'protobuf-mode)
