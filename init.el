@@ -1,3 +1,25 @@
+;;; Emacs configuration
+
+;; Emacs package support
+;;
+;; package-initialize may not be necessary in emacs 27. See
+;; https://github.com/emacs-mirror/emacs/blob/emacs-27/etc/NEWS
+(when (>= emacs-major-version 23)
+  (require 'package)
+  (setq package-enable-at-startup nil)
+  (setq package-archives
+               '(("gnu" . "https://elpa.gnu.org/packages/")
+                ("melpa" . "https://melpa.org/packages/")))
+  (package-initialize)
+
+  (unless (package-installed-p 'use-package)
+    (package-refresh-contents)
+    (package-install 'use-package))
+  (eval-when-compile
+    (require 'use-package))
+  )
+
+
 ;;; Set up font
 ;;;
 ;;; In emacs 23, Ubuntu 12.04, emacs no longer respects the settings
@@ -162,20 +184,18 @@ of an error, just add the package to a list of missing packages."
        (add-to-list 'missing-packages-list feature 'append))
      nil)))
 
-;; Emacs package support
-;;
-;; package-initialize may not be necessary in emacs 27. See
-;; https://github.com/emacs-mirror/emacs/blob/emacs-27/etc/NEWS
-(when (>= emacs-major-version 23)
-  (require 'package)
-  (package-initialize)
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.org/packages/") t)
-)
 
-(when (try-require 'auto-package-update)
-  (setq auto-package-update-prompt-before-update t)
-  (auto-package-update-maybe)
+
+(use-package auto-package-update
+             :ensure t
+             :config
+             (setq auto-package-update-prompt-before-update t
+                   ; Would be nice to delete, but doesn't play well
+                   ; when packages were first installed in deb
+                   ; packages.
+                   ;auto-package-update-delete-old-versions t
+                   auto-package-update-interval 4)
+             (auto-package-update-maybe)
   )
 
 ;; ;;; load cedet
@@ -489,60 +509,67 @@ Example:
 
 
 ;;; ivy
-(when (try-require 'ivy)
-  (ivy-mode))
+(use-package ivy
+             :config
+             (ivy-mode))
 
 ;;; Swiper
-(when (try-require 'swiper)
-  (global-set-key (kbd "C-s") 'swiper-isearch)
-  (global-set-key (kbd "C-r") 'swiper-isearch-backward)
-  (define-key swiper-map (kbd "C-r") 'ivy-previous-line-or-history))
+(use-package swiper
+             :bind (("C-s" . swiper-isearch)
+                    ("C-r" . swiper-isearch-backward)
+                    :map swiper-map
+                    ("C-r" . ivy-previous-line-or-history)))
 
-;;; Counsel
-(if (try-require 'counsel)
-    ;; If available, use counsel-yank-pop.
-    ;;
-    ;; Ideally it would have thse properties:
-    ;;   1. Show selected yank text in buffer, like browse-kill-ring
-    ;;      does.
-    ;;   2. Mark the difference between selections in the list. With
-    ;;      multi-line snippets, it's hard to know where the snippets
-    ;;      end before selecting. It does look like there is an option
-    ;;      for that, but I fear it will take up too much room.
-    ;;
-    ;; Also, try the configuration from
-    ;; http://pragmaticemacs.com/emacs/counsel-yank-pop-with-a-tweak/
-    ;; to set up ivy-next-line. Need to switch to use-package first.
-    ;; (And it looks like it remaps M-y to ivy-next-line in every ivy
-    ;; completion minibuffer.)
-    (progn
-      (global-set-key (kbd "M-y") 'counsel-yank-pop)
-      (global-set-key (kbd "C-x b") 'counsel-switch-buffer)
-      (global-set-key (kbd "M-x") 'counsel-M-x))
 
-  ;; If counsel is not available, try browse-kill-ring
-  (when (require 'browse-kill-ring nil 'noerror)
-    (browse-kill-ring-default-keybindings))
-  )
+
+;; If available, use counsel-yank-pop.
+;;
+;; Ideally it would have thse properties:
+;;   1. Show selected yank text in buffer, like browse-kill-ring
+;;      does.
+;;   2. Mark the difference between selections in the list. With
+;;      multi-line snippets, it's hard to know where the snippets
+;;      end before selecting. It does look like there is an option
+;;      for that, but I fear it will take up too much room.
+;;
+;; Also, try the configuration from
+;; http://pragmaticemacs.com/emacs/counsel-yank-pop-with-a-tweak/
+;; to set up ivy-next-line. Need to switch to use-package first.
+;; (And it looks like it remaps M-y to ivy-next-line in every ivy
+;; completion minibuffer.)
+(use-package counsel
+             :bind (("M-y" . counsel-yank-pop)
+                    ("C-x b" . counsel-switch-buffer)
+                    ("M-x" . counsel-M-x)))
+
+;; If counsel is not available, try browse-kill-ring.
+;;
+;; (This only works if the feature isn't installed, not if the feature
+;; doesn't load. I'm not sure if there's a way to check for that.
+(use-package browse-kill-ring
+             :unless (package-installed-p 'counsel)
+             :config (browse-kill-ring-default-keybindings))
 
 
 ;;; Amx
-(when (try-require 'amx)
-  (amx-mode))
+(use-package amx
+             :config (amx-mode))
 
 
 ;;; ivy-xref
 ;;; https://github.com/alexmurray/ivy-xref
-(when (try-require 'ivy-xref)
-  ;; xref initialization is different in Emacs 27 - there are two
-  ;; different variables which can be set rather than just one
-  (when (>= emacs-major-version 27)
-    (setq xref-show-definitions-function #'ivy-xref-show-defs))
-  ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
-  ;; commands other than xref-find-definitions
-  ;; (e.g. project-find-regexp) as well
-  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
-  )
+(use-package ivy-xref
+             :config
+             ;; xref initialization is different in Emacs 27
+             ;; - there are two different variables which can
+             ;; be set rather than just one
+             (when (>= emacs-major-version 27)
+               (setq xref-show-definitions-function #'ivy-xref-show-defs))
+             ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
+             ;; commands other than xref-find-definitions
+             ;; (e.g. project-find-regexp) as well
+             (setq xref-show-xrefs-function #'ivy-xref-show-xrefs)
+             )
 
 
 ;;;;; SKIPPING longlines
@@ -559,9 +586,9 @@ Example:
 ; Don't use tab characters
 (setq-default indent-tabs-mode nil)
 
-; Clean up unused buffers at 4 AM
-(require 'midnight)
-(midnight-delay-set 'midnight-delay "4:00am")
+;; Clean up unused buffers at 4 AM
+(use-package midnight
+             :config (midnight-delay-set 'midnight-delay "4:00am"))
 
 ;; Colors
 (global-font-lock-mode t)
@@ -606,9 +633,10 @@ Example:
 
 ;; Use ws-butler to delete whitespace only on modified lines
 ;; https://github.com/lewang/ws-butler
-(when (try-require 'ws-butler)
-  (setq ws-butler-keep-whitespace-before-point nil)
-  (ws-butler-global-mode)
+(use-package ws-butler
+             :config
+             (setq ws-butler-keep-whitespace-before-point nil)
+             (ws-butler-global-mode)
 )
 
 ;; Function to highlight lines longer that run over 80 columns
@@ -670,19 +698,21 @@ Example:
 
 
 ;; Automatic smerge mode
-(autoload 'smerge-mode "smerge-mode" nil t)
-(defun sm-try-smerge ()
-  (save-excursion
-    (goto-char (point-min))
-    (when (re-search-forward "^<<<<<<< " nil t)
-      (smerge-mode 1))))
-(add-hook 'find-file-hooks 'sm-try-smerge t)
+(use-package smerge-mode
+             :init (defun sm-try-smerge ()
+                     (save-excursion
+                       (goto-char (point-min))
+                       (when (re-search-forward "^<<<<<<< " nil t)
+                         (smerge-mode 1))))
+             (add-hook 'find-file-hooks 'sm-try-smerge t)
+)
 
 
 ;; Flycheck
-(when (try-require 'flycheck)
-  (global-flycheck-mode)
-  (setq flycheck-idle-change-delay 4))
+(use-package flycheck
+             :config (global-flycheck-mode)
+             (setq flycheck-idle-change-delay 4))
+
 
 ;; flyspell
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
@@ -692,15 +722,18 @@ Example:
 ;;
 ;; Need to use `load` and not `require` because a2ps doesn't "provide"
 ;; a2ps-print.
-(when (load "a2ps-print" 'noerror)
-    (setq a2ps-switches `("-C"))
-    ;; TODO: Ubuntu/Debian puts this in the menu already...  Need to
-    ;; check the load-history variable to see if it's already been
-    ;; loaded, or can check the menu.
-    (easy-menu-add-item nil
-			'("file") ["a2ps Buffer" a2ps-buffer "--"]
-			"separator-window")
-)
+;;
+;; TODO: Debian installs a2ps-print.el in /usr/share/emacs/site-lisp/a2ps
+;; but that is not in the load-path.
+(use-package a2ps-print
+             :config
+             (setq a2ps-switches '("-C"))
+             ;; TODO: Ubuntu/Debian puts this in the menu already...
+             ;; Need to check the load-history variable to see if it's
+             ;; already been loaded, or can check the menu.
+             (easy-menu-add-item nil
+                                 '("file") ["a2ps Buffer" a2ps-buffer "--"]
+                                 "separator-window"))
 
 
 ;; ;; ;; dsvn is supposedly faster than psvn for large trees, but it has
@@ -916,6 +949,7 @@ wide enough to show the indicator"
     )
   )
 
+
 ;;;
 ;;; Python
 ;;;
@@ -1113,20 +1147,22 @@ wide enough to show the indicator"
 
 
 ;; Markdown mode
-(autoload 'markdown-mode "markdown-mode")
-(add-to-list 'auto-mode-alist '("\\.mdwn" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.markdown" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md" . markdown-mode))
-(setq markdown-fontify-code-blocks-natively t)
-(setq markdown-spaces-after-code-fence 0)
-(add-hook 'markdown-mode-hook
-           '(lambda ()
-             (add-hook 'write-contents-hooks 'ska-untabify nil t)))
+(use-package markdown-mode
+             :mode (("\\.md" . markdown-mode)
+                    ("\\.mdwn" . markdown-mode)
+                    ("\\.markdown" . markdown-mode))
+             :config
+             (setq markdown-fontify-code-blocks-natively t)
+             (setq markdown-spaces-after-code-fence 0)
+             (add-hook 'markdown-mode-hook
+                       '(lambda ()
+                          (add-hook 'write-contents-hooks 'ska-untabify nil t)))
+             )
 
 
 ;; Yaml mode
-(when (try-require 'yaml-mode)
-  (add-to-list 'auto-mode-alist '("\\.yaml" . yaml-mode)))
+(use-package yaml-mode
+             :mode "\\.yaml")
 
 
 ;; TeX mode
@@ -1134,28 +1170,30 @@ wide enough to show the indicator"
 
 
 ;; SWIG mode
-(when (try-require 'swig-mode)
-  (add-to-list 'auto-mode-alist '("\\.swig\\'" . swig-mode))
-  (add-to-list 'auto-mode-alist '("\\.i\\'" . swig-mode))
-  )
+(use-package swig-mode
+             :mode (("\\.swig\\'" . swig-mode)
+                    ("\\.i\\'" . swig-mode)))
+
 
 ;; Use python-mode for .pythonrc
 (add-to-list 'auto-mode-alist '(".pythonrc" . python-mode))
 
 
 ;; Modes for certain config files
-(if (try-require 'gitconfig-mode)
-    (add-to-list 'auto-mode-alist '(".gitconfig.local" . gitconfig-mode))
-  (add-to-list 'auto-mode-alist '(".gitconfig" . conf-mode))
-  (add-to-list 'auto-mode-alist '(".gitconfig.local" . conf-mode))
-  )
+
+;; TODO: Again figure out how to a fallback to config-mode
+(use-package gitconfig-mode
+             :mode (("\\.gitconfig\\.local" . gitconfig-mode)
+                    ("\\.gitconfig" . gitconfig-mode)))
+
+
 (add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
 
 
 ;; Protocol buffer mode
-(when (try-require 'protobuf-mode)
-  (add-to-list 'auto-mode-alist '("\\.proto\\'" . protobuf-mode))
-  )
+(use-package protobuf-mode
+             :mode "\\.proto\\'"
+             )
 
 ;; sh-mode settings
 (add-hook 'sh-mode-hook (lambda ()
@@ -1171,7 +1209,8 @@ wide enough to show the indicator"
 ;;; explain-pause-mode
 ;;;
 ;;; https://github.com/lastquestion/explain-pause-mode
-(when (try-require 'explain-pause-mode)
+(use-package explain-pause-mode
+             :config
   (add-hook 'after-init-hook #'explain-pause-mode))
 
 
@@ -1182,8 +1221,9 @@ wide enough to show the indicator"
 ;;
 ;; TODO: Move above loading the local init, and add a version in the
 ;; local init for work clients.
-(when (try-require 'vc-hgcmd)
-  (add-to-list 'vc-handled-backends 'Hgcmd))
+(use-package vc-hgcmd
+             :config
+             (add-to-list 'vc-handled-backends 'Hgcmd))
 
 
 (setq local-init-file "~/.emacs.d/init-local.el")
