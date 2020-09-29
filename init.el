@@ -15,9 +15,9 @@
 ;;;
 ;;; Recently, Debian changed the name of the font from "Terminus" to
 ;;; "Terminus (TTF)"
-(if (member "Terminus (TTF)" (font-family-list))
-    (set-frame-font "Terminus (TTF)-9" nil t)
-    (set-frame-font "Terminus-9" nil t))
+(require 'cl-extra)
+(cl-some (lambda (font) (ignore-errors (set-frame-font font)))
+         '("Terminus (TTF)" "Terminus"))
 
 
 ;;;
