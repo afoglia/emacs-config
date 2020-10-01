@@ -38,8 +38,9 @@
 ;;; Recently, Debian changed the name of the font from "Terminus" to
 ;;; "Terminus (TTF)"
 (require 'cl-extra)
-(cl-some (lambda (font) (ignore-errors (set-frame-font font)))
-         '("Terminus (TTF)" "Terminus"))
+(cl-some (lambda (font) (ignore-errors
+                            (progn (set-frame-font font nil t) t)))
+         '("Terminus (TTF)-9" "Terminus-9"))
 
 
 ;;;
