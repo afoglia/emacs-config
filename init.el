@@ -557,6 +557,13 @@ Example:
              :config (amx-mode))
 
 
+;;; Which Key
+(use-package which-key
+             :config
+             (which-key-mode)
+             (which-key-setup-side-window-right-bottom))
+
+
 ;;; ivy-xref
 ;;; https://github.com/alexmurray/ivy-xref
 (use-package ivy-xref
