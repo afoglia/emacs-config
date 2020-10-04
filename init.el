@@ -645,7 +645,12 @@ Example:
              :config
              (setq ws-butler-keep-whitespace-before-point nil)
              (ws-butler-global-mode)
-)
+             )
+
+;;; Make files that begin with shebang lines executable
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+
 
 ;; Function to highlight lines longer that run over 80 columns
 (defun show-overlong-lines ()
