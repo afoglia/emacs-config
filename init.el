@@ -1087,7 +1087,7 @@ wide enough to show the indicator"
 (defadvice ff-get-file-name (around ff-get-file-name-framework
                                     (search-dirs
                                      fname-stub
-                                     &optionak suffix-list))
+                                     &optional suffix-list))
   "Search for Mac framework headers as well as POSIX headers."
   (or
    (if (string-match "\\(.*?\\)/\\(.*\\)" fname-stub)
