@@ -28,6 +28,7 @@
         (add-hook 'server-switch-hook 'raise-frame)
                                         ;(setq TeX-source-specials-mode 1) ; doesn't seem to work with kpdf
 
+        ;; KDVI is no longer in development. Instead, KDE uses Okular for DVI viewing.
                                         ; kdvi forward search
         (require 'kdvi-search)
         (add-hook 'LaTeX-mode-hook
