@@ -761,20 +761,21 @@ Example:
 
 ;; Put a2ps in the File menu
 ;;
-;; Need to use `load` and not `require` because a2ps doesn't "provide"
-;; a2ps-print.
+;; Need to use `load` and not `require` or `use-package` because a2ps
+;; doesn't "provide" a2ps-print.
 ;;
 ;; TODO: Debian installs a2ps-print.el in /usr/share/emacs/site-lisp/a2ps
 ;; but that is not in the load-path.
-(use-package a2ps-print
-             :config
-             (setq a2ps-switches '("-C"))
+(if (load "a2ps-print" 'noerror)
+    (progn (setq a2ps-switches '("-C"))
              ;; TODO: Ubuntu/Debian puts this in the menu already...
              ;; Need to check the load-history variable to see if it's
              ;; already been loaded, or can check the menu.
              (easy-menu-add-item nil
                                  '("file") ["a2ps Buffer" a2ps-buffer "--"]
                                  "separator-window"))
+  (message "Unable to load a2ps-print")
+  )
 
 
 ;; ;; ;; dsvn is supposedly faster than psvn for large trees, but it has
