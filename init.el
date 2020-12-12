@@ -546,9 +546,22 @@ Example:
 ;; (And it looks like it remaps M-y to ivy-next-line in every ivy
 ;; completion minibuffer.)
 (use-package counsel
-             :bind (("M-y" . counsel-yank-pop)
-                    ("C-x b" . counsel-switch-buffer)
-                    ("M-x" . counsel-M-x)))
+             :bind
+             ;; There are other useful commands in the key bindings suggested in
+             ;; the docs, but the non-counsel versions aren't currently bound to
+             ;; keys, and I can't think of good key bindings at the
+             ;; moment. Examples:
+             ;;   counsel-set-variable
+             ;;     shows description of variable
+             ;;   counsel-load-theme
+             ;;     disables all current themes before loading the
+             ;;     selected theme
+             ;; See https://oremacs.com/swiper/#global-key-bindings
+             (("M-y" . counsel-yank-pop)
+              ("C-x b" . counsel-switch-buffer)
+              ("M-x" . counsel-M-x)
+              ("C-h f" . counsel-describe-function)
+              ("C-h v" . counsel-describe-variable)))
 
 ;; If counsel is not available, try browse-kill-ring.
 ;;
