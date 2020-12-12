@@ -228,6 +228,13 @@ of an error, just add the package to a list of missing packages."
            ;;   misterioso
            ;; Need to install color-theme-modern and try to set up those
            ;; themes. See load-theme function and custom-safe-themes variable.
+           ;;
+           ;; Other themes:
+           ;;   nord (Ugly buttons in customize buffers)
+           ;;   modus-vivendi https://gitlab.com/protesilaos/modus-themes
+           ;;   sanityinc-tomorrow-eighties, sanityinc-tomorrow-night https://github.com/purcell/color-theme-sanityinc-tomorrow
+           ;;   darktooth https://github.com/emacsfodder/emacs-theme-darktooth
+           ;;   ample-flat https://github.com/jordonbiondo/ample-theme
            (load-theme 'deeper-blue))
     (progn
       (message "Setting up color theme")
