@@ -577,6 +577,14 @@ Example:
              :config (amx-mode))
 
 
+;;; ivy-rich
+(use-package ivy-rich
+  :config
+  (ivy-rich-mode 1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  )
+
+
 ;;; Which Key
 (use-package which-key
              :config
