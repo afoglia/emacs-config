@@ -38,6 +38,7 @@
 ;;; Recently, Debian changed the name of the font from "Terminus" to
 ;;; "Terminus (TTF)"
 (require 'cl-extra)
+;;; TODO: Switch this from ignore-error to with-demoted-errors
 (cl-some (lambda (font) (ignore-errors
                             (progn (set-frame-font font nil t) t)))
          '("Terminus (TTF)-9" "Terminus-9"))
