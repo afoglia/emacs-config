@@ -516,6 +516,22 @@ Example:
 ;; icomplete Mode
 (icomplete-mode 99)
 
+;;; recentf
+;;;
+;;; Configuration taken from
+;;; https://www.masteringemacs.org/article/find-files-faster-recent-files-package
+(require 'recentf)
+;; There might be an ivy-recentf or counsel-recentf instead?
+;; https://github.com/abo-abo/swiper/issues/624
+(global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+(recentf-mode t)
+(setq recentf-max-saved-items 50)
+(defun ido-recentf-open ()
+  "Use `ido-completing-read' to \\[find-file] a recent file"
+  (interactive)
+  (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+      (message "Opening file...")
+    (message "Aborting")))
 
 ;;; ivy
 (use-package ivy
