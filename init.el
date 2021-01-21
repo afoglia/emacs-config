@@ -338,6 +338,10 @@ of an error, just add the package to a list of missing packages."
 ;; Leave the scratch buffer empty
 (setq initial-scratch-message nil)
 
+;; Shortcut to kill current buffer
+(global-set-key (kbd "C-x K") 'kill-current-buffer)
+
+
 ;;;
 ;;; Define frame title
 ;;;
