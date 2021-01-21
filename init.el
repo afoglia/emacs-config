@@ -471,6 +471,14 @@ Example:
 ;; ;; Get rid of `mouse-set-font':
 ;; (global-set-key [S-down-mouse-1] nil)
 
+(use-package windmove
+  :config
+  ;; The default keybindings use shift as a modifier, but shift-arrow is
+  ;; currently used to select-and-move. That command can also be done by C-space
+  ;; <arrow>, so maybe I should stick with the default shift-arrow for windmove.
+  (windmove-default-keybindings 'meta)
+  (setq windmove-wrap-around t))
+
 ;;; Set up emacs-server
 (server-start)
 (add-hook 'server-switch-hook
