@@ -1236,6 +1236,11 @@ wide enough to show the indicator"
              :mode "\\.yaml")
 
 
+;; JSON mode
+(use-package json-mode
+             :mode "\\.json")
+
+
 ;; TeX mode
 (load "~/.emacs.d/dotemacs.tex.el")
 
