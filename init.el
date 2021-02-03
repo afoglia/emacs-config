@@ -552,6 +552,7 @@ Example:
 
 ;;; Swiper
 (use-package swiper
+             :after ivy
              :bind (("C-s" . swiper-isearch)
                     ("C-r" . swiper-isearch-backward)
                     :map swiper-map
@@ -575,6 +576,7 @@ Example:
 ;; (And it looks like it remaps M-y to ivy-next-line in every ivy
 ;; completion minibuffer.)
 (use-package counsel
+             :after ivy
              :bind
              ;; There are other useful commands in the key bindings suggested in
              ;; the docs, but the non-counsel versions aren't currently bound to
@@ -608,6 +610,7 @@ Example:
 
 ;;; ivy-rich
 (use-package ivy-rich
+  :after ivy
   :config
   (ivy-rich-mode 1)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
@@ -624,6 +627,7 @@ Example:
 ;;; ivy-xref
 ;;; https://github.com/alexmurray/ivy-xref
 (use-package ivy-xref
+             :after ivy
              :config
              ;; xref initialization is different in Emacs 27
              ;; - there are two different variables which can
