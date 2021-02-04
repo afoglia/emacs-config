@@ -547,6 +547,7 @@ Example:
 
 ;;; ivy
 (use-package ivy
+             :diminish ivy-mode
              :config
              (ivy-mode))
 
@@ -619,6 +620,7 @@ Example:
 
 ;;; Which Key
 (use-package which-key
+             :diminish which-key-mode
              :config
              (which-key-mode)
              (which-key-setup-side-window-right-bottom))
