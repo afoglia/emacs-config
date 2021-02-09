@@ -1,5 +1,12 @@
 ;;; AucTeX mode for (La)TeX files
 
+
+;;
+;; Notes: AucTeX should be version 12.2 or greater. Older versions do
+;; not support preview-latex with current versions of ghostscript.
+;; https://tex.stackexchange.com/questions/397147/can-not-generate-preview-by-auctex
+
+
 (when (try-require 'tex-site)
   (if (eq system-type 'windows-nt)
       (require 'tex-mik)
