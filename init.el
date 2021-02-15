@@ -227,15 +227,28 @@ of an error, just add the package to a list of missing packages."
            ;;   deeper-blue
            ;;   tango-dark
            ;;   misterioso
+           ;;   doom-sourcerer
            ;; Need to install color-theme-modern and try to set up those
            ;; themes. See load-theme function and custom-safe-themes variable.
            ;;
            ;; Other themes:
            ;;   nord (Ugly buttons in customize buffers)
-           ;;   modus-vivendi https://gitlab.com/protesilaos/modus-themes
-           ;;   sanityinc-tomorrow-eighties, sanityinc-tomorrow-night https://github.com/purcell/color-theme-sanityinc-tomorrow
-           ;;   darktooth https://github.com/emacsfodder/emacs-theme-darktooth
-           ;;   ample-flat https://github.com/jordonbiondo/ample-theme
+           ;;   modus-vivendi
+           ;;     https://gitlab.com/protesilaos/modus-themes
+           ;;   sanityinc-tomorrow-eighties, sanityinc-tomorrow-night
+           ;;     https://github.com/purcell/color-theme-sanityinc-tomorrow
+           ;;   darktooth
+           ;;     https://github.com/emacsfodder/emacs-theme-darktooth
+           ;;   ample-flat
+           ;;     https://github.com/jordonbiondo/ample-theme
+           ;;   sanityinc-tomorrow-eighties
+           ;;     https://github.com/purcell/color-theme-sanityinc-tomorrow
+           ;;   afternoon-theme
+           ;;     https://github.com/osener/emacs-afternoon-theme
+           ;;   doom-material, doom-nord, doom-opera, doom-sourcerer
+           ;;     https://github.com/hlissner/emacs-doom-themes/tree/screenshots
+           ;;   odersky
+           ;;     https://github.com/owainlewis/emacs-color-themes
            (load-theme 'deeper-blue))
     (progn
       (message "Setting up color theme")
