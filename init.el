@@ -1336,3 +1336,12 @@ wide enough to show the indicator"
        (setq custom-file "~/.emacs.d/custom.el"))
       )
 (load custom-file 'noerror)
+
+;; TODO: Add doom-modeline. Requires all-the-icons and all-the-icons-install
+;; having been run to install the fonts. I don't want to run that everytime. So
+;; how to check if the fonts are already installed?
+;;
+;; I can do (find-font (font-spec :family (all-the-icons-FAMILY-family))) where
+;; family an element of all-the-icons-font-families. Do that for all the
+;; families, and if all are installed, all the fonts are installed. Otherwise,
+;; prompt to install the fonts.
