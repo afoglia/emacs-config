@@ -549,7 +549,17 @@ Example:
 (use-package ivy
              :diminish ivy-mode
              :config
-             (ivy-mode))
+             (ivy-mode)
+
+             ;; Make ivy play well with icomplete
+             ;; https://github.com/abo-abo/swiper/issues/1287
+             (defun ivy-complete (f &rest r)
+               (icomplete-mode -1)
+               (unwind-protect
+                   (apply f r)
+                 (icomplete-mode 99)))
+             (advice-add 'ivy-read :around #'ivy-complete)
+)
 
 ;;; Swiper
 (use-package swiper
