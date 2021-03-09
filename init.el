@@ -343,6 +343,36 @@ of an error, just add the package to a list of missing packages."
       )
     )
 
+;;; Doom modeline
+
+(defun ajf--all-the-icons-font-installed-p (family-name)
+  (when (functionp 'all-the-icons--family-name)
+    (find-font
+     (font-spec :family (funcall
+                         (all-the-icons--family-name family-name)
+                         )
+                )
+     )
+    )
+  )
+
+(defun ajf--all-the-icons-installed-p ()
+  (when (functionp 'all-the-icons--family-name)
+    (every #'ajf--all-the-icons-font-installed-p
+           all-the-icons-font-families)))
+
+(use-package all-the-icons
+  :config
+  (unless (ajf--all-the-icons-installed-p)
+    (when (y-or-n-p "Install fonts for all-the-icons:")
+      (all-the-icons-install-fonts))))
+
+(use-package doom-modeline
+  :after all-the-icons
+  :if (or (ajf--all-the-icons-installed-p)
+          (not (message "Not loading doom-modeline because the fonts from all-the-icons are not installed"))))
+
+
 ;;; Quiet startup
 
 ;; Shut off startup message
@@ -1349,12 +1379,3 @@ wide enough to show the indicator"
        (setq custom-file "~/.emacs.d/custom.el"))
       )
 (load custom-file 'noerror)
-
-;; TODO: Add doom-modeline. Requires all-the-icons and all-the-icons-install
-;; having been run to install the fonts. I don't want to run that everytime. So
-;; how to check if the fonts are already installed?
-;;
-;; I can do (find-font (font-spec :family (all-the-icons-FAMILY-family))) where
-;; family an element of all-the-icons-font-families. Do that for all the
-;; families, and if all are installed, all the fonts are installed. Otherwise,
-;; prompt to install the fonts.
