@@ -370,7 +370,8 @@ of an error, just add the package to a list of missing packages."
 (use-package doom-modeline
   :after all-the-icons
   :if (or (ajf--all-the-icons-installed-p)
-          (not (message "Not loading doom-modeline because the fonts from all-the-icons are not installed"))))
+          (not (message "Not loading doom-modeline because the fonts from all-the-icons are not installed")))
+  :config (doom-modeline-mode))
 
 
 ;;; Quiet startup
