@@ -739,6 +739,32 @@ Example:
 (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
 (setq ack-and-a-half-arguments '("--nopager"))
 
+
+;;; Deadgrep
+;;
+;; Need to hack to get it to accept custom args, in particular for an ignore
+;; file in a nonstandard location.
+(defvar ripgrep-ignore-path
+  ;; Default from RIPGREP_CONFIG_PATH variable
+  ;;
+  ;; I store an ignore file for ripgrep in the same directory as the ripgrep
+  ;; conf file.
+  (let ((ripgrep-config-path (getenv "RIPGREP_CONFIG_PATH")))
+    (if ripgrep-config-path
+        (format "%s/../ignore" ripgrep-config-path))
+    )
+  )
+
+(use-package deadgrep
+  :config
+  (advice-add 'deadgrep--arguments :filter-return
+              (lambda (args)
+                (if ripgrep-ignore-path
+                    (push (format "--ignore-file=%s" ripgrep-ignore-path)
+                          args))))
+  )
+
+
 ;; ;; Strip trailing whitespace when saving certain filetypes
 ;; ;; Using whitespace mode from
 ;; ;; <http://www.splode.com/~friedman/software/emacs-lisp/src/whitespace.el>
