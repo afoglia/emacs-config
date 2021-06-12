@@ -805,6 +805,7 @@ Example:
 ;; Highlight matching parentheses
 (show-paren-mode t)
 ;; From <http://www.emacswiki.org/emacs/ShowParenMode>
+;; <https://web.archive.org/web/20170708083009/https://www.emacswiki.org/emacs/ShowParenMode>
 (defadvice show-paren-function (after show-matching-paren-offscreen activate)
   "If the matching paren is offscreen, show the matching line in the echo area.  Has no effect if the character before point is not of the syntax class ')'."
   (interactive)
