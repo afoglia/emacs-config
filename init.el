@@ -1245,10 +1245,10 @@ wide enough to show the indicator"
 (ad-activate 'ff-get-file-name)
 
 ; Jamfile mode
-(require 'jam-mode nil 'noerror)
-;; (if (featurep 'jam-mode)
-;;     (setq jam-indent-size 3)
-;; )
+(use-package jam-mode
+  :mode (("Jamroot" . jam-mode)
+         ("\\.jam\\'" . jam-mode))
+  )
 
 ;;; Go-mode
 (when (or (try-require 'go-mode) (try-require 'go-mode-load))
@@ -1272,16 +1272,6 @@ wide enough to show the indicator"
 
 ;; ;;;;; SKIPPING longlines-show-effect
 
-;; ;;
-;; ;; Add new automatic modes for files
-;; ;;
-;; (setq auto-mode-alist (append
-;;                        '(("\\.gnu-emacs\\(-custom\\)?\\'" . lisp-mode)
-;;                          ("/asa\\(-git\\)?/.*\\.h\\'" . c++-mode)
-;;                          ("Jamroot" . jam-mode)
-;;                          (".*\\.jam\\'" . jam-mode))
-;;                        auto-mode-alist)
-;; )
 
 ;; From <http://www.emacswiki.org/cgi-bin/wiki/UntabifyUponSave>
  (defun ska-untabify ()
