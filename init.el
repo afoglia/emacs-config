@@ -1043,9 +1043,11 @@ Example:
     (progn
       (add-hook 'prog-mode-hook '(lambda () (display-fill-column-indicator-mode)))
       (add-hook 'prog-mode-hook '(lambda () (message "Running prog-mode-hook: buffer %s" (buffer-name))))
-      (when (try-require 'markdown-mode)
-        (add-hook 'markdown-mode-hook '(lambda () (message "Running markdown mode hooks: buffer %s" (buffer-name))))
-        (add-hook 'markdown-mode-hook #'display-fill-column-indicator-mode)))
+      (eval-after-load 'markdown-mode
+        '(progn (add-hook 'markdown-mode-hook '(lambda () (message "Running markdown mode hooks: buffer %s" (buffer-name))))
+                (add-hook 'markdown-mode-hook #'display-fill-column-indicator-mode))
+        )
+      )
   (when (try-require 'fill-column-indicator)
     (setq fci-rule-color "firebrick3")
 
