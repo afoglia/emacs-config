@@ -1306,6 +1306,7 @@ wide enough to show the indicator"
 
 ;; Markdown mode
 (use-package markdown-mode
+             :commands (markdown-mode gfm-mode)
              :mode (("\\.md" . markdown-mode)
                     ("\\.mdwn" . markdown-mode)
                     ("\\.markdown" . markdown-mode))
