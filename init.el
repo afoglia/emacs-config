@@ -813,13 +813,11 @@ Example:
   ;; is a close parentheses type character.  Otherwise, there's not
   ;; really any point, and `blink-matching-open' would just echo
   ;; "Mismatched parentheses", which gets really annoying.
-  (let* ((cb (char-before (point)))
-         (matching-text
+  (let ((cb (char-before (point))))
           (if (and cb
                    (char-equal (char-syntax cb) ?\) ))
-              (blink-matching-open))))
-    (when matching-text
-      (message matching-text)))
+              (blink-matching-open))
+    )
   )
 
 ;;; Delete softtabs
