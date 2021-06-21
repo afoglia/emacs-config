@@ -409,10 +409,14 @@ of an error, just add the package to a list of missing packages."
 
 ;; On OSX, get path from shell, not default.
 ;; https://melpa.org/#/exec-path-from-shell
+;; https://github.com/purcell/exec-path-from-shell
+;;
+;; TODO: Reorder shell config files to not require interactive loading
+;; to set PATH. (See https://github.com/purcell/exec-path-from-shell)
 (message "windows-system == %s" window-system)
 (if (memq window-system '(mac ns))
-    (when (try-require 'exec-path-from-shell)
-      (exec-path-from-shell-initialize)))
+    (use-package exec-path-from-shell
+      :config (exec-path-from-shell-initialize)))
 
 (when (try-require 'projectile)
   (projectile-global-mode)
