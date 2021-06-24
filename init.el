@@ -856,6 +856,19 @@ Example:
 (setq glasses-face 'italic)
 
 
+;; ediff settings
+(use-package ediff
+  :config
+  ; Don't put help/command buffer in a separate frame.
+  (setq ediff-window-setup-function #'ediff-setup-windows-plain)
+  (setq ediff-split-window-function
+        (lambda (&optional arg)
+          (if (> (frame-width) 140)
+              (split-window-horizontally arg)
+            (split-window-vertically arg))))
+  )
+
+
 ;; Automatic smerge mode
 (use-package smerge-mode
              :init (defun sm-try-smerge ()
