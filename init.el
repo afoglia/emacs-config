@@ -866,6 +866,15 @@ Example:
           (if (> (frame-width) 140)
               (split-window-horizontally arg)
             (split-window-vertically arg))))
+  ;; ediff hooks to restore original window layout
+  ;; https://emacs.stackexchange.com/questions/7482/restoring-windows-and-layout-after-an-ediff-session
+  (defvar ajf-ediff-last-windows nil)
+  (defun ajf-store-pre-ediff-winconfig ()
+    (setq ajf-ediff-last-windows (current-window-configuration)))
+  (defun ajf-restore-pre-ediff-winconfig ()
+    (set-window-configuration ajf-ediff-last-windows))
+  (add-hook 'ediff-before-setup-hook #'ajf-store-pre-ediff-winconfig)
+  (add-hook 'ediff-quit-hook #'ajf-restore-pre-ediff-winconfig)
   )
 
 
