@@ -19,6 +19,10 @@
     (require 'use-package))
   )
 
+;; Report package setup times and record statistics
+(setq use-package-verbose t)
+(setq use-package-compute-statistics t)
+
 
 ;;; Set up font
 ;;;
