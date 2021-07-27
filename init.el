@@ -922,7 +922,14 @@ Example:
 
 ;; flyspell
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+(add-hook 'text-mode-hook 'flyspell-mode)
 
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after (flyspell-correct ivy))
 
 ;; Put a2ps in the File menu
 ;;
