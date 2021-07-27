@@ -719,6 +719,27 @@ Example:
 ; Don't use tab characters
 (setq-default indent-tabs-mode nil)
 
+
+;; Use one space after periods when rewrapping paragraphs. (I switched my style
+;; years ago. I don't know if is the best idea, but I've given in to
+;; convention.)
+(setq sentence-end-double-space nil)
+
+
+;; Use goto-address-mode for urls
+(use-package goto-address-mode
+  :hook
+  (text-mode . goto-address-mode)
+  (prog-mode . goto-address-mode)
+
+  ;; Should I be using customize-set-variable or use-package's :custom? setq is
+  ;; faster.
+  :init
+  (setq goto-address-url-face 'underline)
+  ;(customize-set-variable 'goto-address-url-face 'underline)
+  )
+
+
 ;; Clean up unused buffers at 4 AM
 (use-package midnight
              :config (midnight-delay-set 'midnight-delay "4:00am"))
