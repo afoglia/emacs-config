@@ -418,9 +418,10 @@ of an error, just add the package to a list of missing packages."
 ;; TODO: Reorder shell config files to not require interactive loading
 ;; to set PATH. (See https://github.com/purcell/exec-path-from-shell)
 (message "windows-system == %s" window-system)
-(if (memq window-system '(mac ns))
-    (use-package exec-path-from-shell
-      :config (exec-path-from-shell-initialize)))
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :config (exec-path-from-shell-initialize))
+
 
 (when (try-require 'projectile)
   (projectile-global-mode)
