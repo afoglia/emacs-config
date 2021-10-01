@@ -795,6 +795,13 @@ Example:
   )
 
 
+(use-package fzf
+  ;; TODO: Configure to not use entire monorepo at work for the
+  ;; default directory. It might be better done by customize
+  ;; projectile.
+  )
+
+
 ;; ;; Strip trailing whitespace when saving certain filetypes
 ;; ;; Using whitespace mode from
 ;; ;; <http://www.splode.com/~friedman/software/emacs-lisp/src/whitespace.el>
