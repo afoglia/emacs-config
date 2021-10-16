@@ -685,6 +685,9 @@ Example:
 
 
 ;;; Which Key
+;;;
+;;; TODO: Bind which-key-show-top-level and/or which-key-show-major-mode (and/or
+;;; discover-my-major) to a key, perhaps C-h C-M (aka C-h RET))
 (use-package which-key
              :diminish which-key-mode
              :config
