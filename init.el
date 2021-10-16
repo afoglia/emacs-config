@@ -541,6 +541,9 @@ Example:
               (switch-to-buffer-other-frame server-buf))))
 
 
+;; Don't store duplicates in kill ring
+(setq kill-do-not-save-duplicates t)
+
 ;;; Use C-w to delete previous word, unless a region is selected
 (defun backward-kill-word-or-kill-region (&optional arg)
   (interactive "p")
