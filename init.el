@@ -1386,6 +1386,70 @@ wide enough to show the indicator"
              :mode "\\.yaml")
 
 
+;; JS mode
+(use-package js-mode
+  :commands js-mode
+  :config
+  (define-key js-mode-map (kbd "M-.") nil)
+  )
+(use-package js2-mode
+  :mode "\\.js"
+  :config
+  (add-hook 'js2-mode-hook #'js2-imenu-extras-mode)
+  (define-key js-mode-map (kbd "M-.") nil)
+  )
+
+(use-package js2-refactor
+ ; :after (js2-mode)
+  :hook js2-mode
+  :custom
+  (js2r-prefer-let-over-var t)
+  ;; Prefer single quotes to double (should this be in a work setting?)
+  ;;
+  ;; (Yes, 2 = single quotes and 1 = double quotes. Not needlessly confusing at
+  ;; all.)
+  (js2r-preffered-quote-type 2)
+  :config
+  (easy-menu-define js2-refactor-menu js2-mode-map "Refactor"
+    '("Refactor"
+      ["Extract var" js2r-extract-var]
+      ["Extract let" js2r-extract-let]
+      ["Extract const" js2r-extract-const]
+      ["Inline variable" js2r-inline-var]
+      ["Rename var" js2r-rename-var]
+      "---"
+      ["Extract function" js2r-extract-function]
+      ["Extract method" js2r-extract-method]
+      "---"
+      ;; These I need to play with to fully grok
+      ["Expand node" js2r-expand-node-at-point]
+      ["Contract node" js2r-contract-node-at-point]
+      ["Wrap buffer" js2r-wrap-buffer-in-iife]
+      ["Inject global" js2r-inject-global-in-iife]
+      ["Convert var to this" js2r-var-to-this]
+      ["Add to globals" js2r-add-to-globals-annotation]
+      ["Split var declaration" js2r-split-var-declaration]
+      ["Split string" js2r-split-string]
+      ["String to template" js2r-string-to-template]
+      ["Introduce parameter" js2r-introduce-parameter]
+      ["Localize parameter" js2r-localize-parameter]
+      ["Toggle function expression and declaration" js2r-toggle-function-expression-and-declaration]
+      ["Toggle arrow function" js2r-toggle-arrow-function-and-expression]
+      ["Toggle async function" js2r-toggle-function-async]
+      ["Args to object" js2r-arguments-to-object]
+      ["Unwrap" js2r-unwrap]
+      ["Wrap in for-loop" js2r-wrap-in-for-loop]
+      ["Convert ternary to if" js2r-ternary-to-if]
+      ["Log node" js2r-log-this]
+      ["Debug node" js2r-debug-this]
+      ["Forward slurp" js2r-forward-slurp]
+      ["Forward barf" js2r-forward-barf]
+      ["Kill line" js2r-kill]
+  ))
+  (easy-menu-add js2-refactor-menu js2-mode-map)
+  )
+
+
 ;; JSON mode
 (use-package json-mode
              :mode "\\.json")
