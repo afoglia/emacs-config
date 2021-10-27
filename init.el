@@ -1465,6 +1465,13 @@ wide enough to show the indicator"
                     ("\\.i\\'" . swig-mode)))
 
 
+;; HTML/SGML settings
+;;
+;; I used to have a whole bunch of nxml/mmm-mode settings which I have
+;; lost track of. Oh, well. Those modes are probably obsolete anyway.
+(add-hook 'sgml-mode-hook 'sgml-electric-tag-pair-mode)
+
+
 ;; Use python-mode for .pythonrc
 (add-to-list 'auto-mode-alist '(".pythonrc" . python-mode))
 
