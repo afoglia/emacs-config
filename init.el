@@ -1408,7 +1408,7 @@ wide enough to show the indicator"
   ;;
   ;; (Yes, 2 = single quotes and 1 = double quotes. Not needlessly confusing at
   ;; all.)
-  (js2r-preffered-quote-type 2)
+  (js2r-prefered-quote-type 2)
   :config
   (easy-menu-define js2-refactor-menu js2-mode-map "Refactor"
     '("Refactor"
