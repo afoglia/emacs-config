@@ -1401,7 +1401,7 @@ wide enough to show the indicator"
 
 (use-package js2-refactor
  ; :after (js2-mode)
-  :hook js2-mode
+  :hook (js2-mode . js2-refactor-mode)
   :custom
   (js2r-prefer-let-over-var t)
   ;; Prefer single quotes to double (should this be in a work setting?)
