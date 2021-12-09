@@ -928,6 +928,14 @@ Example:
 )
 
 
+;; Imenu-list
+(use-package imenu-list
+  :commands (imenu-list-minor-mode imenu-smart-list-toggle)
+  :config
+  (setq imenu-list-focus-after-activation t)
+  )
+
+
 ;; Flycheck
 (use-package flycheck
              :config (global-flycheck-mode)
