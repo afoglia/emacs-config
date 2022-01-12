@@ -1548,6 +1548,10 @@ wide enough to show the indicator"
 ;; ;(desktop-save-mode 1)
 
 
+(use-package powershell
+  :mode ("\\.ps1\\'" . powershell-mode))
+
+
 ;;; explain-pause-mode
 ;;;
 ;;; https://github.com/lastquestion/explain-pause-mode
