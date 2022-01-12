@@ -682,6 +682,16 @@ Example:
              ;;     disables all current themes before loading the
              ;;     selected theme
              ;; See https://oremacs.com/swiper/#global-key-bindings
+             ;;
+             ;; TODO: These bindings should not be set here. By doing
+             ;; so, if ivy is installed, and counsel is not, these
+             ;; bindings break from the default. (Makes sense, but not
+             ;; ideal when setting up a new machine.) Instead, they
+             ;; should be set up in a config after loading, or some
+             ;; other more complicated conditional logic that checks
+             ;; if it can be loaded each time: if not, run the
+             ;; default; if so, run counsel version and drop the check
+             ;; in the future.
              (("M-y" . counsel-yank-pop)
               ("C-x b" . counsel-switch-buffer)
               ("M-x" . counsel-M-x)
