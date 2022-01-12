@@ -512,17 +512,44 @@ Example:
 ;;   (interactive "P")
 ;;   (text-zoom (- 0 (or n 1))))
 
-(require 'zoom-frm)
-(global-set-key (if (boundp 'mouse-wheel-down-event)
-                    (vector (list 'control mouse-wheel-down-event))
-                  [C-mouse-wheel])   ; Emacs 20, 21
-                'zoom-frm-in)
-(when (boundp 'mouse-wheel-up-event)
-  (global-set-key (vector (list 'control mouse-wheel-up-event)) 'zoom-frm-out))
+;;; zoom-frm
+;;;
+;;; https://www.emacswiki.org/emacs/zoom-frm.el
+;;;
+;;; TODO: Update to newest version of zoom-frm.
+(use-package zoom-frm
+  ;; autoloads annotated in zoom-frm.el
+  ;;
+  ;; There's probably a better/cleaner way to do this, but zoom-frm is
+  ;; from emacswiki.org not a package archive.
+  ;;
+  ;; TODO: Clean this up. This list was taken from commands marked
+  ;; autoload in the newest version of zoom-frm.el, but I'm still
+  ;; including the old version in my repo. And not all the commands
+  ;; that can be autoloaded are marked as such. (See comments in
+  ;; newest zoom-frm.el.). To be honest, these might be unnecesary
+  ;; because the decorations might be enough. (But I think autoloads
+  ;; only get registered via the package mechanics, and I'm not
+  ;; install zoom-frm as a package, just as a file in the load-path.)
+  :commands (zoom-frm-in
+             zoom-frm-out
+             zoom-frm-unzoom
+             toggle-zoom-frame
+             zoom-all-frames-in
+             zool-all-frames-out)
+  :init
+  (global-set-key (if (boundp 'mouse-wheel-down-event)
+                      (vector (list 'control mouse-wheel-down-event))
+                    [C-mouse-wheel])   ; Emacs 20, 21
+                  'zoom-frm-in)
+  (when (boundp 'mouse-wheel-up-event)
+    (global-set-key (vector (list 'control mouse-wheel-up-event))
+                    'zoom-frm-out))
 ;; (global-set-key [S-mouse-1]    'zoom-frm-in)
 ;; (global-set-key [C-S-mouse-1]  'zoom-frm-out)
 ;; ;; Get rid of `mouse-set-font':
 ;; (global-set-key [S-down-mouse-1] nil)
+)
 
 (use-package windmove
   :config
