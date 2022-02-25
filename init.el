@@ -1566,8 +1566,9 @@ wide enough to show the indicator"
 ;;;
 ;;; https://github.com/lastquestion/explain-pause-mode
 (use-package explain-pause-mode
-             :config
-  (add-hook 'after-init-hook #'explain-pause-mode))
+  :hook
+  (after-init . explain-pause-mode)
+  )
 
 
 ;; Mercurial command server vc backend
