@@ -900,6 +900,16 @@ Example:
     )
   )
 
+
+;;; idle-highlight-mode
+;;;
+;;; Updated version of old idle-highlight-mode
+;;; https://gitlab.com/ideasman42/emacs-idle-highlight-mode
+;;; https://www.reddit.com/r/emacs/comments/pweeeb/ann_idlehighlightmode_fast_symbolatpoint/
+(use-package idle-highlight-mode
+  :hook prog-mode)
+
+
 ;;; Delete softtabs
 (defun backward-delete-whitespace-to-column ()
   "delete back to the previous column of whitespace, or just one
