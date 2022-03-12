@@ -1341,6 +1341,7 @@ wide enough to show the indicator"
             )
           )
 
+
 ;;; Objective-C mode
 ;;;
 ;;; Configuration taken from <https://www.emacswiki.org/emacs/ObjectiveCMode>
@@ -1370,6 +1371,7 @@ wide enough to show the indicator"
    ad-do-it))
 (ad-enable-advice 'ff-get-file-name 'around 'ff-get-file-name-framework)
 (ad-activate 'ff-get-file-name)
+
 
 ; Jamfile mode
 (use-package jam-mode
@@ -1533,7 +1535,7 @@ wide enough to show the indicator"
 
 ;; Modes for certain config files
 
-;; TODO: Again figure out how to a fallback to config-mode
+;; TODO: Again figure out how to automatically fallback to conf-mode
 (use-package gitconfig-mode
              :mode (("\\.gitconfig\\.local" . gitconfig-mode)
                     ("\\.gitconfig" . gitconfig-mode)))
