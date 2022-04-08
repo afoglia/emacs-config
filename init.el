@@ -593,6 +593,11 @@ Example:
                   )
                 )
 
+
+(use-package revert-buffer-all
+  :commands revert-buffer-all)
+
+
 ;;;;; SKIPPING Pymacs
 
 ;; ido Mode
