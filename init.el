@@ -952,6 +952,7 @@ Example:
           (if (> (frame-width) 140)
               (split-window-horizontally arg)
             (split-window-vertically arg))))
+
   ;; ediff hooks to restore original window layout
   ;; https://emacs.stackexchange.com/questions/7482/restoring-windows-and-layout-after-an-ediff-session
   (defvar ajf-ediff-last-windows nil)
@@ -961,6 +962,18 @@ Example:
     (set-window-configuration ajf-ediff-last-windows))
   (add-hook 'ediff-before-setup-hook #'ajf-store-pre-ediff-winconfig)
   (add-hook 'ediff-quit-hook #'ajf-restore-pre-ediff-winconfig)
+
+  ;; Use git diff on windows, simply because it's likely to be there.
+  (when (eq (window-system) 'w32)
+    (let ((git-bin-dir
+           (file-name-as-directory "C:\\Program Files\\Git\\usr\\bin")))
+      (when (file-directory-p git-bin-dir)
+        (setq ediff-cmp-program (concat git-bin-dir "cmp.exe"))
+        (setq ediff-diff-program (concat git-bin-dir "diff.exe"))
+        (setq ediff-diff3-program (concat git-bin-dir "diff3.exe"))
+        )
+      )
+    )
   )
 
 
