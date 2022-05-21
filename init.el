@@ -911,7 +911,13 @@ Example:
 ;;; Updated version of old idle-highlight-mode
 ;;; https://gitlab.com/ideasman42/emacs-idle-highlight-mode
 ;;; https://www.reddit.com/r/emacs/comments/pweeeb/ann_idlehighlightmode_fast_symbolatpoint/
+;;;
+;;; ":if (locate-library ...)" is to handle idle-highlight not being installed.
+;;; (https://github.com/jwiegley/use-package/issues/591). A better way would be
+;;; to have some sort of hook wrapper that doesn't return failure if the
+;;; library fails to load.
 (use-package idle-highlight-mode
+  :if (locate-library "idle-highlight-mode")
   :hook prog-mode)
 
 
