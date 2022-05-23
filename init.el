@@ -754,6 +754,22 @@ Example:
              )
 
 
+(use-package re-builder
+  :config
+  ;; Run query-replace-regexp from re-builder.
+  ;; From: https://www.emacswiki.org/emacs/ReBuilder
+  ;;       https://emacs.stackexchange.com/a/899
+  (defun reb-query-replace(to-string)
+    "Replace current RE from point with `query-replace-regexp'."
+    (interactive
+     (progn (barf-if-buffer-read-only)
+            (list (query-replace-read-to (reb-target-binding reb-regexp)
+                                         "Query replace" t))))
+    (with-current-buffer reb-target-buffer
+      (query-replace-regexp (reb-target-binding reb-regexp) to-string)))
+  )
+
+
 ;;;;; SKIPPING longlines
 
 ; Show column numbers
