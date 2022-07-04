@@ -1625,8 +1625,10 @@ wide enough to show the indicator"
 ;;;
 ;;; https://github.com/lastquestion/explain-pause-mode
 (use-package explain-pause-mode
-  :hook
-  (after-init . explain-pause-mode)
+  ;; If explain-pause-mode is not available, this hook fails.
+  ;; :hook
+  ;; (after-init . explain-pause-mode)
+  :config (explain-pause-mode)
   )
 
 
