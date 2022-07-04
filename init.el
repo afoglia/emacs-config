@@ -1012,6 +1012,10 @@ Example:
                        (when (re-search-forward "^<<<<<<< " nil t)
                          (smerge-mode 1))))
              (add-hook 'find-file-hook 'sm-try-smerge t)
+             :custom-face
+             (smerge-base ((t (:extend t :background "#505000"))))
+             (smerge-lower ((t (:extend t :background "#224422"))))
+             (smerge-refined-added ((t (:inherit smerge-refined-change :background "#335533"))))
 )
 
 
