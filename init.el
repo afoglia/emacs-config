@@ -759,7 +759,7 @@ Example:
   ;; Run query-replace-regexp from re-builder.
   ;; From: https://www.emacswiki.org/emacs/ReBuilder
   ;;       https://emacs.stackexchange.com/a/899
-  (defun reb-query-replace(to-string)
+  (defun reb-query-replace (to-string)
     "Replace current RE from point with `query-replace-regexp'."
     (interactive
      (progn (barf-if-buffer-read-only)
