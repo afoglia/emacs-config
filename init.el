@@ -29,7 +29,7 @@
 ;;; In emacs 23, Ubuntu 12.04, emacs no longer respects the settings
 ;;; in .Xresources.
 ;;;
-;;; Set font to Terminus. Using the TTF version for now. The bolding
+;;; Set font to Terminus. Using the TTF version for now. The bolded
 ;;; doesn't look nice at the small size I prefer, but the xfont
 ;;; version doesn't have bold (perhaps there's some way to set emacs
 ;;; to use the bold font version explicitly), and is missing in the
@@ -43,6 +43,7 @@
 ;;; "Terminus (TTF)"
 (require 'cl-extra)
 ;;; TODO: Switch this from ignore-error to with-demoted-errors
+;;; TODO: Use fontspecs rather than font strings? Maybe?
 (cl-some (lambda (font) (ignore-errors
                             (progn (set-frame-font font nil t) t)))
          '("Terminus (TTF)-9" "Terminus-9"))
@@ -368,7 +369,7 @@ of an error, just add the package to a list of missing packages."
 (use-package all-the-icons
   :config
   (unless (ajf--all-the-icons-installed-p)
-    (when (y-or-n-p "Install fonts for all-the-icons:")
+    (when (y-or-n-p "Install fonts for all-the-icons? ")
       (all-the-icons-install-fonts))))
 
 (use-package doom-modeline
@@ -635,6 +636,9 @@ Example:
 
 ;;; ivy
 (use-package ivy
+             ;; :diminish or :delight? Both? Neither seem to be
+             ;; installed, but yet ivy is not shown in the list of
+             ;; minor-modes presented by doom-modeline.
              :diminish ivy-mode
              :config
              (ivy-mode)
@@ -730,6 +734,9 @@ Example:
 ;;;
 ;;; TODO: Bind which-key-show-top-level and/or which-key-show-major-mode (and/or
 ;;; discover-my-major) to a key, perhaps C-h C-M (aka C-h RET))
+;;
+;; TODO: Try to write a which-key-sort-order function that groups but
+;; ignores modifier. Something like: a A C-a M-a C-M-a ... b B C-b M-b
 (use-package which-key
              :diminish which-key-mode
              :config
