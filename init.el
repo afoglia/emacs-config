@@ -350,13 +350,13 @@ of an error, just add the package to a list of missing packages."
 
 ;;; Doom modeline
 
+(defun ajf-font-family-available-p (font-family)
+  (find-font (font-spec :family font-family)))
+
 (defun ajf--all-the-icons-font-installed-p (family-name)
   (when (functionp 'all-the-icons--family-name)
-    (find-font
-     (font-spec :family (funcall
-                         (all-the-icons--family-name family-name)
-                         )
-                )
+    (ajf-font-family-available-p
+     (funcall (all-the-icons--family-name family-name))
      )
     )
   )
@@ -372,10 +372,17 @@ of an error, just add the package to a list of missing packages."
     (when (y-or-n-p "Install fonts for all-the-icons? ")
       (all-the-icons-install-fonts))))
 
+(use-package nerd-icons
+  :config
+  (unless (ajf-font-family-available-p nerd-icons-font-family)
+    (when (y-or-n-p "Install font nerd-icons? ")
+      (nerd-icons-install-fonts)))
+  )
+
 (use-package doom-modeline
-  :after all-the-icons
-  :if (or (ajf--all-the-icons-installed-p)
-          (not (message "Not loading doom-modeline because the fonts from all-the-icons are not installed")))
+  :after nerd-icons
+  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+          (not (message "Not loading doom-modeline because the nerd-icon font is not installed")))
   :config (doom-modeline-mode))
 
 
@@ -730,6 +737,23 @@ Example:
   )
 
 
+;;; nerd-icons-ivy-rich
+;;;
+;;; Although nerd-icons-ivy-rich-mode depends on ivy-rich, for
+;;; performance it should be enabled before ivy-rich-mode. I don't
+;;; understand exactly why.
+;;; https://github.com/seagle0128/nerd-icons-ivy-rich
+;;; This does not do that though, to keep the dependency logic simple
+;;; and explicit.
+(use-package nerd-icons-ivy-rich
+  :after (nerd-icons ivy-rich)
+  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+          (not (message "Not loading nerd-icons-ivy-rich because the nerd-icon font is not installed")))
+  :config
+  (nerd-icons-ivy-rich-mode 1)
+  )
+
+
 ;;; Which Key
 ;;;
 ;;; TODO: Bind which-key-show-top-level and/or which-key-show-major-mode (and/or
@@ -1031,6 +1055,15 @@ Example:
   :commands (imenu-list-minor-mode imenu-smart-list-toggle)
   :config
   (setq imenu-list-focus-after-activation t)
+  )
+
+
+;; ibuffer nerd icons
+(use-package nerd-icons-ibuffer
+  :after nerd-icons
+  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+          (not (message "Not loading nerd-icons-ibuffer because the nerd-icon font is not installed")))
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
   )
 
 
