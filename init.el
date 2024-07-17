@@ -1697,6 +1697,12 @@ wide enough to show the indicator"
                           (setq sh-basic-offset 2)
                           (setq indentation 2)))
 
+(use-package shfmt
+  :hook (sh-mode . shfmt-mode)
+  :custom
+  (shfmt-arguments '("-i" "2" "-ci" "-bn" "-sr")))
+
+
 ;; ;; Desktop save mode
 ;; ;; <http://www.gnu.org/software/emacs/manual/html_node/emacs/Saving-Emacs-Sessions.html>
 ;; ;(desktop-save-mode 1)
