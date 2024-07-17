@@ -1445,6 +1445,42 @@ wide enough to show the indicator"
           )
 
 
+(use-package virtualenvwrapper
+  :commands (venv-workon
+             venv-deactivate
+             venv-mkvirtualenv
+             venv-mkvirtualenv-using
+             venv-rmvirtualenv
+             venv-lsvirtualenv
+             venv-cdvirtualenv
+             venv-cpvirtualenv
+             venv-with-virtualenv)
+  :custom
+  ;; TODO: Move eshell-prompt-function settings somewhere else in case
+  ;; I want to set it based on other packages as well. Also, need to
+  ;; add color. See https://www.emacswiki.org/emacs/EshellPrompt for
+  ;; details.
+  (eshell-prompt-function
+   (function
+    (lambda ()
+      (concat (if (bound-and-true-p venv-current-name)
+                  (concat "("
+                          venv-current-name
+                          ") "))
+              (abbreviate-file-name (eshell/pwd))
+              (if (= (user-uid) 0) " # " " $ ")))))
+  :config
+  (venv-initialize-interactive-shells)
+  (venv-initialize-eshell)
+  ;; TODO: Try to get the current virtualenv in the modeline
+  ;; (particularly doom-modeline). See doom-modeline-env.el. Maybe
+  ;; putting advice around doom-modeline-env--python-args? Maybe just
+  ;; rely on VIRTUAL_ENV environment variable (but need to remove
+  ;; leading directory that's WORKON_HOME), or just
+  ;; `venv-current-name'.
+  )
+
+
 ;;; Objective-C mode
 ;;;
 ;;; Configuration taken from <https://www.emacswiki.org/emacs/ObjectiveCMode>
