@@ -1480,6 +1480,9 @@ wide enough to show the indicator"
   ;; `venv-current-name'.
   )
 
+(use-package auto-virtualenvwrapper
+  :hook (python-mode . auto-virtualenvwrapper-activate))
+
 
 ;;; Objective-C mode
 ;;;
