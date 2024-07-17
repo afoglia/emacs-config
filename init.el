@@ -379,9 +379,15 @@ of an error, just add the package to a list of missing packages."
       (nerd-icons-install-fonts)))
   )
 
+(defun ajf-nerd-icons-setup-p ()
+  (and (boundp 'nerd-icons-font-family)
+       (ajf-font-family-available-p nerd-icons-font-family))
+  )
+
+
 (use-package doom-modeline
   :after nerd-icons
-  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+  :if (or (ajf-nerd-icons-setup-p)
           (not (message "Not loading doom-modeline because the nerd-icon font is not installed")))
   :config (doom-modeline-mode))
 
@@ -747,7 +753,7 @@ Example:
 ;;; and explicit.
 (use-package nerd-icons-ivy-rich
   :after (nerd-icons ivy-rich)
-  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+  :if (or (ajf-nerd-icons-setup-p)
           (not (message "Not loading nerd-icons-ivy-rich because the nerd-icon font is not installed")))
   :config
   (nerd-icons-ivy-rich-mode 1)
@@ -1061,7 +1067,7 @@ Example:
 ;; ibuffer nerd icons
 (use-package nerd-icons-ibuffer
   :after nerd-icons
-  :if (or (ajf-font-family-available-p nerd-icons-font-family)
+  :if (or (ajf-nerd-icons-setup-p)
           (not (message "Not loading nerd-icons-ibuffer because the nerd-icon font is not installed")))
   :hook (ibuffer-mode . nerd-icons-ibuffer-mode)
   )
