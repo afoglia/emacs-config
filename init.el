@@ -1684,6 +1684,7 @@ wide enough to show the indicator"
 
 
 (add-to-list 'auto-mode-alist '(".hgrc" . conf-mode))
+(add-to-list 'auto-mode-alist '(".pylintrc" . conf-mode))
 
 
 ;; Protocol buffer mode
