@@ -545,23 +545,39 @@ Example:
   ;; because the decorations might be enough. (But I think autoloads
   ;; only get registered via the package mechanics, and I'm not
   ;; install zoom-frm as a package, just as a file in the load-path.)
-  :commands (zoom-frm-in
+  :commands (toggle-zoom-frame
+             zoom-all-frames-in
+             zoom-all-frames-out
+             zoom-frm-in
              zoom-frm-out
              zoom-frm-unzoom
-             toggle-zoom-frame
-             zoom-all-frames-in
-             zool-all-frames-out)
+             zoom-in
+             zoom-out
+             zoom-in/out
+             )
   :init
+  ; TODO: Try moving to :map
+  (define-key ctl-x-map [(control ?+)] 'zoom-in/out)
+  (define-key ctl-x-map [(control ?-)] 'zoom-in/out)
+  (define-key ctl-x-map [(control ?=)] 'zoom-in/out)
+  (define-key ctl-x-map [(control ?0)] 'zoom-in/out)
+  ; TODO: Try moving to :bind
   (global-set-key (if (boundp 'mouse-wheel-down-event)
                       (vector (list 'control mouse-wheel-down-event))
                     [C-mouse-wheel])   ; Emacs 20, 21
-                  'zoom-frm-in)
+                  'zoom-in)
+  (global-set-key (if (boundp 'mouse-wheel-down-event)
+                      (vector (list 'control 'meta mouse-wheel-down-event))
+                    [C-M-mouse-wheel])   ; Emacs 20, 21
+                  'zoom-all-frames-in)
   (when (boundp 'mouse-wheel-up-event)
     (global-set-key (vector (list 'control mouse-wheel-up-event))
-                    'zoom-frm-out))
+                    'zoom-out)
+    (global-set-key (vector (list 'control 'meta mouse-wheel-up-event))
+                    'zoom-all-frames-out))
 ;; (global-set-key [S-mouse-1]    'zoom-frm-in)
 ;; (global-set-key [C-S-mouse-1]  'zoom-frm-out)
-;; ;; Get rid of `mouse-set-font':
+;; ;; Get rid of `mouse-set-font' or `mouse-appearance-menu'
 ;; (global-set-key [S-down-mouse-1] nil)
 )
 
