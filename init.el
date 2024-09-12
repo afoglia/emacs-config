@@ -1500,6 +1500,14 @@ wide enough to show the indicator"
   :hook (python-mode . auto-virtualenvwrapper-activate))
 
 
+;;; TODO: Get this to autoload for requirements/base.in and similar.
+;;; It already autoloads for requirements/base.txt, should be easy to
+;;; generalize, although the logic might be too loose, and matches too
+;;; many files.
+(use-package pip-requirements
+  )
+
+
 ;;; Objective-C mode
 ;;;
 ;;; Configuration taken from <https://www.emacswiki.org/emacs/ObjectiveCMode>
