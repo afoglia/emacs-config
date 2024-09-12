@@ -24,6 +24,11 @@
 (setq use-package-compute-statistics t)
 
 
+;;; TODO: Try benchmark-init package. https://github.com/dholm/benchmark-init-el
+;;; TODO: Other packages to try:
+;;;         * artist-mode
+
+
 ;;; Set up font
 ;;;
 ;;; In emacs 23, Ubuntu 12.04, emacs no longer respects the settings
@@ -254,6 +259,8 @@ of an error, just add the package to a list of missing packages."
            ;;     https://github.com/hlissner/emacs-doom-themes/tree/screenshots
            ;;   odersky
            ;;     https://github.com/owainlewis/emacs-color-themes
+           ;;   material
+           ;;     https://melpa.org/#/material-theme
            (load-theme 'deeper-blue))
     (progn
       (message "Setting up color theme")
@@ -778,8 +785,8 @@ Example:
 
 ;;; Which Key
 ;;;
-;;; TODO: Bind which-key-show-top-level and/or which-key-show-major-mode (and/or
-;;; discover-my-major) to a key, perhaps C-h C-M (aka C-h RET))
+;;; TODO: Bind `which-key-show-top-level' and/or `which-key-show-major-mode' (and/or
+;;; `discover-my-major') to a key, perhaps C-h C-M (aka C-h RET))
 ;;
 ;; TODO: Try to write a which-key-sort-order function that groups but
 ;; ignores modifier. Something like: a A C-a M-a C-M-a ... b B C-b M-b
@@ -1380,7 +1387,10 @@ wide enough to show the indicator"
           header-line-format which-func-header-line-format)))
 
 
-; python mode customization
+;;; python mode customization
+;;;
+;;; TODO: Advise python-indent-calculate-indentation to indent
+;;; continued lines by 4 characters.
 (add-hook 'python-mode-hook
           (lambda ()
             (progn
@@ -1496,6 +1506,12 @@ wide enough to show the indicator"
   ;; `venv-current-name'.
   )
 
+
+;;; TODO: Advise auto-virtualenvwrapper--project-root to return name
+;;; of current directory if it matches a pre-existing virtualenv, to
+;;; use for my throwaway virtualenvs when testing stuff. (Obviously
+;;; this would be an advise after the call that only does something if
+;;; the return root is the empty string.)
 (use-package auto-virtualenvwrapper
   :hook (python-mode . auto-virtualenvwrapper-activate))
 
