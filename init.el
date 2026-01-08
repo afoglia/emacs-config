@@ -1753,6 +1753,10 @@ wide enough to show the indicator"
   :mode ("\\.ps1\\'" . powershell-mode))
 
 
+(use-package dockerfile-mode
+  :mode "[\\./]Dockerfile\\'")
+
+
 ;;; explain-pause-mode
 ;;;
 ;;; https://github.com/lastquestion/explain-pause-mode
