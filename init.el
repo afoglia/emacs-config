@@ -12,11 +12,32 @@
                  ("melpa" . "https://melpa.org/packages/")))
   (package-initialize)
 
-  (unless (package-installed-p 'use-package)
-    (package-refresh-contents)
-    (package-install 'use-package))
-  (eval-when-compile
-    (require 'use-package))
+  (let ((built-in-features (append '((29 . use-package))
+                                   (when (>= emacs-major-version 30)
+                                     '((30 . which-key))))))
+    (dolist (item built-in-features)
+      (let* ((ver (car item))
+             (pkg (cdr item))
+             (pkg-desc (cadr (assq pkg package-alist))))
+        (when (and (>= emacs-major-version ver) pkg-desc)
+          (message
+           "Emacs %s+ detected: Deleting redundant ELPA version of %s..."
+           ver
+           pkg)
+          (package-delete pkg-desc)))))
+
+  (if (>= emacs-major-version 29)
+      ;; Use builtin use-package
+      (eval-when-compile
+        (require 'use-package)
+        )
+    ;; Install on older emacs
+    (unless (package-installed-p 'use-package)
+      (package-refresh-contents)
+      (package-install 'use-package))
+    (eval-when-compile
+      (require 'use-package))
+    )
   )
 
 ;; Report package setup times and record statistics
