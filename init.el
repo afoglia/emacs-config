@@ -1760,7 +1760,9 @@ wide enough to show the indicator"
                           (setq indentation 2)))
 
 (use-package shfmt
-  :hook (sh-mode . shfmt-mode)
+  :commands shfmt-mode
+  :hook (sh-mode . (lambda ()
+                     (with-demoted-errors "shfmt error: %S" (shfmt-mode 1))))
   :custom
   (shfmt-arguments '("-i" "2" "-ci" "-bn" "-sr")))
 
