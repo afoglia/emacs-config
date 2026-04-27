@@ -1545,6 +1545,57 @@ wide enough to show the indicator"
   )
 
 
+;;;
+;;; mmm-mode
+;;;
+(use-package mmm-mode
+  :init
+  (setq mmm-global-mode 'maybe)
+  )
+
+(defconst ajf/copier-end-marker-rx
+  (rx "{%" (+ space)
+      (or "endif" "endyield")
+      (+ space) "%}"))
+
+(defun ajf/jinja-file-rx (pattern &optional allow-copier-end)
+  "Append jinja extensions to filename regexp PATTERN.
+
+  If ALLOW-COPIER-END is non-nil, also include \"{% endif %}\" and \"{%
+  endyield %}\" tags used by copier."
+  (rx-to-string
+   `(seq (regexp ,pattern)
+         ,@(when allow-copier-end
+             `((? (regexp ,ajf/copier-end-marker-rx))))
+         ".jinja"
+         (? "2")
+         string-end)))
+
+(defun ajf/register-mmm-jinja (mode regex)
+  (add-to-list 'auto-mode-alist (cons regex mode))
+  (mmm-add-mode-ext-class mode regex 'jinja2))
+
+(defvar ajf/mmm-jinja-rules
+  `((conf-toml-mode . ,(ajf/jinja-file-rx "\\.toml" t))
+    (sh-mode        . ,(ajf/jinja-file-rx "\\.sh" t))
+    (python-mode    . ,(ajf/jinja-file-rx "\\.py" t))
+    (makefile-mode  . ,(ajf/jinja-file-rx "Makefile" t))
+    (yaml-mode      . ,(ajf/jinja-file-rx "\\.ya?ml" t))
+    (markdown-mode  . ,(ajf/jinja-file-rx "\\.\\(md\\|markdown\\)" t))
+    )
+  )
+
+(defun ajf/register-mmm-jinja-rules (rules)
+  (dolist (rule rules)
+    (ajf/register-mmm-jinja (car rule) (cdr rule))))
+
+(use-package mmm-jinja2
+  :after mmm-mode
+  :config
+  (ajf/register-mmm-jinja-rules ajf/mmm-jinja-rules)
+  )
+
+
 ;;; Objective-C mode
 ;;;
 ;;; Configuration taken from <https://www.emacswiki.org/emacs/ObjectiveCMode>
