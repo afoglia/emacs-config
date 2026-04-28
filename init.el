@@ -926,7 +926,7 @@ Example:
   ;; conf file.
   (let ((ripgrep-config-path (getenv "RIPGREP_CONFIG_PATH")))
     (if ripgrep-config-path
-        (format "%s/../ignore" ripgrep-config-path))
+        (format "%s/ignore" ripgrep-config-path))
     )
   )
 
