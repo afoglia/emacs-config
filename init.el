@@ -459,6 +459,10 @@ of an error, just add the package to a list of missing packages."
 ;;
 ;; TODO: Reorder shell config files to not require interactive loading
 ;; to set PATH. (See https://github.com/purcell/exec-path-from-shell)
+;;
+;; TODO: Add PYTHONPATH and GOPATH and other path-like variables?
+;; (PYTHONPATH might be dealt with fine by the virtualenv logic.)
+;; https://github.com/jwiegley/use-package-examples#exec-path-from-shell
 (message "windows-system == %s" window-system)
 (use-package exec-path-from-shell
   :if (memq window-system '(mac ns))
@@ -692,6 +696,14 @@ Example:
     (message "Aborting")))
 
 ;;; ivy
+;;
+;; TODO: Switch to Vertico + Consult + Marginalia + Embark... Looks
+;; like the new hotness, and I like the idea of completing read
+;; working identically in all commands, vs. having to wrap commands to
+;; get ivy support. See
+;; https://www.reddit.com/r/emacs/comments/117zdnu/comment/j9jzie5/
+;; https://www.reddit.com/r/emacs/comments/11p1yyp/help_me_switch_from_ivyswipercounsel_to/
+;; and https://kristofferbalintona.me/posts/202202211546/
 (use-package ivy
              ;; :diminish or :delight? Both? Neither seem to be
              ;; installed, but yet ivy is not shown in the list of
@@ -811,6 +823,10 @@ Example:
 ;;
 ;; TODO: Try to write a which-key-sort-order function that groups but
 ;; ignores modifier. Something like: a A C-a M-a C-M-a ... b B C-b M-b
+;;
+;; Also, it may be worth switching to embark and
+;; `embark-prefix-help-command' instead of which-key. See
+;; https://www.reddit.com/r/emacs/comments/otjn19/comment/h6vyx9q/
 (use-package which-key
              :diminish which-key-mode
              :config
