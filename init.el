@@ -1025,10 +1025,12 @@ Example:
 ;;; https://gitlab.com/ideasman42/emacs-idle-highlight-mode
 ;;; https://www.reddit.com/r/emacs/comments/pweeeb/ann_idlehighlightmode_fast_symbolatpoint/
 ;;;
-;;; ":if (locate-library ...)" is to handle idle-highlight not being installed.
-;;; (https://github.com/jwiegley/use-package/issues/591). A better way would be
-;;; to have some sort of hook wrapper that doesn't return failure if the
-;;; library fails to load.
+;;; ":if (locate-library ...)" is to handle idle-highlight not being
+;;; installed. (https://github.com/jwiegley/use-package/issues/591). A
+;;; better way would be to have some sort of hook wrapper that doesn't
+;;; return failure if the library fails to load. See the notes near
+;;; the use-package declaration for auto-virtualenvwrapper for
+;;; attempts on how to do that.
 (use-package idle-highlight-mode
   :if (locate-library "idle-highlight-mode")
   :hook prog-mode)
@@ -1549,7 +1551,12 @@ wide enough to show the indicator"
 ;;; use for my throwaway virtualenvs when testing stuff. (Obviously
 ;;; this would be an advise after the call that only does something if
 ;;; the return root is the empty string.)
+;;;
+;;; The `:if` block is so this only loads if the library is installed.
+;;; See the use-package declaration for "idle-highlight-mode" up above
+;;; and https://github.com/jwiegley/use-package/issues/591.
 (use-package auto-virtualenvwrapper
+  :if (locate-library "auto-virtualenvwrapper")
   :hook (python-mode . auto-virtualenvwrapper-activate))
 
 
