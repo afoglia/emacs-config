@@ -1152,6 +1152,19 @@ Example:
 (use-package flyspell-correct-ivy
   :after (flyspell-correct ivy))
 
+
+;; dumb-jump
+;; https://github.com/jacktasia/dumb-jump
+
+(use-package dumb-jump
+  :config
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq dumb-jump-force-searcher 'rg)
+  ;; use completion-read instead of a separate buffer with candidates
+  (setq xref-show-defintions-function #'xref-show-definitions-completion-read)
+  )
+
+
 ;; Put a2ps in the File menu
 ;;
 ;; Need to use `load` and not `require` or `use-package` because a2ps
