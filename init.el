@@ -873,10 +873,14 @@ Example:
 (line-number-mode t)
 (column-number-mode t)
 
-; linum -- Shows line numbers for each buffer line
-; activate with M-x linum-mode
-; doesn't play nice with my fix-window-width
-(try-require 'linum)
+;; Deprecated
+;;
+;; Use display-line-numbers-mode or nlinum-mode instead.
+;;
+;; ; linum -- Shows line numbers for each buffer line
+;; ; activate with M-x linum-mode
+;; ; doesn't play nice with my fix-window-width
+;; (try-require 'linum)
 
 ; Don't use tab characters
 (setq-default indent-tabs-mode nil)
